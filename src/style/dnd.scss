@@ -1,0 +1,109 @@
+// Colors
+$dot-color: #1370FB;
+$bg-color: #ffffff;
+
+// Dimensions
+$dot-size: 2px;
+$dot-space: 19px;
+
+.dnd-drag-items {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start; 
+  position: relative;
+}
+
+.dnd-drop-target {
+  height: 600px;
+/*  border: green solid 2px;
+*/
+  background:
+    linear-gradient(90deg, $bg-color ($dot-space - $dot-size), transparent 1%) center,
+    linear-gradient($bg-color ($dot-space - $dot-size), transparent 1%) center,
+    $dot-color;
+  background-size: $dot-space $dot-space;
+
+  &.is-over {
+    border: green solid 2px;
+  }
+
+}
+
+.dnd-drag-source {
+  margin: 10px;
+  height: 100px;
+  width: 100px;
+  cursor: move;
+  border: blue solid 2px;
+  background-color: #ffffff;
+  opacity: 0.99;
+
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+
+  .head {
+/*    border: red solid 1px;
+*/    display: flex;
+    flex-flow: row;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .foot {
+/*    border: green solid 1px;
+*/    display: flex;
+    flex-flow: row;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .active {
+
+    width: 0.8em;
+    height: 0.8em;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-color: transparent;
+    border-width: 0.8em;
+    border-right-color: #0c0;
+    border-bottom-color: #0c0;
+
+    :before,
+    :after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      border-color: transparent;
+      border-style: solid;
+    }
+
+    :before {
+      border-width: 0.9em;
+      border-right-color: #ccc;
+      border-bottom-color: #ccc;
+    }
+
+    :after {
+      border-radius: 0.4em;
+      border-width: 0.8em;
+      border-right-color: #0c0;
+      border-bottom-color: #0c0;
+    }
+
+  }
+
+  &.is-dragging {
+    border: blue solid 5px;
+  }
+
+}
