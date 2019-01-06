@@ -24,7 +24,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <header className="App-header">
+        {/* <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
             Edit <code>src/App.js</code> and save to reload.
@@ -37,7 +37,7 @@ class App extends Component {
           >
             Learn React
           </a>
-        </header>
+        </header> */}
         <DonutChart data={data} colorRange={d3.schemeCategory10}/>
         <DonutChart data={data} colorRange={d3.schemePastel1}/>
         <DonutChart data={data} colorRange={d3.schemeAccent}/>
