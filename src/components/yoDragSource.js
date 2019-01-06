@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { DragSource } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
 import 'font-awesome/scss/font-awesome.scss';
-import { dndTypes} from '../constants/yoDnDTypes'; 
+import { dndTypes, GRID_SPACING } from '../constants/yoDnD'; 
 import '../style/dnd.scss';
 import classNames from 'classnames';
 
@@ -85,6 +85,7 @@ function collect(connect, monitor) {
     // Call this function inside render()
     // to let React DnD handle the drag events:
     connectDragSource: connect.dragSource(),
+    connectDragPreview: connect.dragPreview(),
     // You can ask the monitor about the current drag state:
     isDragging: monitor.isDragging()
   };
@@ -126,9 +127,9 @@ class YoDragSource extends Component {
 
   calcPos(clientOffset, mousedown, parentParam) {
     var delta = Math.round(clientOffset - mousedown)
-    var val = Math.floor(delta / 20) * 20;
-    parentParam = Math.floor(parentParam / 20) * 20;
-    return (val < parentParam ? parentParam + 20 : val) + 'px';
+    var val = Math.floor(delta / GRID_SPACING) * GRID_SPACING;
+    parentParam = Math.floor(parentParam / GRID_SPACING) * GRID_SPACING;
+    return (val < parentParam ? parentParam + GRID_SPACING : val);
   }
 
   updatePos(e) {
@@ -138,9 +139,16 @@ class YoDragSource extends Component {
 //    console.log('parentRec', parentRec);
 
     e.detail.parentNode.appendChild(node);
+
     node.style.position = 'absolute';
-    node.style.left = this.calcPos(e.detail.clientOffset.x, this.state.mousedown.x, parentRec.left);  
-    node.style.top = this.calcPos(e.detail.clientOffset.y, this.state.mousedown.y, parentRec.top);
+    const styleLeft = this.calcPos(e.detail.clientOffset.x, this.state.mousedown.x, parentRec.left);  
+    const styleTop = this.calcPos(e.detail.clientOffset.y, this.state.mousedown.y, parentRec.top);
+    let parentTop = Math.round(parentRec.top);
+    parentTop = Math.floor(parentTop / GRID_SPACING) * GRID_SPACING;
+
+    node.style.left = styleLeft + 'px';
+    node.style.top = styleTop + 'px';
+
 
     // node.style.left = this.calcPos(e.detail.clientOffset.x - parentRec.left, this.state.mousedown.x);  
     // node.style.top = this.calcPos(e.detail.clientOffset.y - parentRec.top, this.state.mousedown.y);
@@ -150,7 +158,7 @@ class YoDragSource extends Component {
     //   this.corner.classList.add('active');
     // }
 
-    this.setState({ active: true });
+    this.setState({ active: true, parentTop, styleLeft, styleTop });
 
   }
 
@@ -158,32 +166,32 @@ class YoDragSource extends Component {
     // Your component receives its own props as usual
     
     var { node } = this;
-    const { active } = this.state;
+    const { active, parentTop, styleLeft, styleTop } = this.state;
 
     // These props are injected by React DnD,
     // as defined by your `collect` function above:
-    const { id, isDragging, connectDragSource } = this.props;
+    const { id, isDragging, connectDragSource, connectDragPreview } = this.props;
 
     let head, foot;
 
-    if (active) {
-      head = (<span className="head">
-          <i className="fa fa-arrows fa-lg"></i>
-        </span>);
+    head = connectDragSource(<span className="head">
+        <i className="fa fa-arrows fa-lg"></i>
+      </span>);
 
+    if (active) {
       foot = (<span className="foot">
           <i className="fa fa-expand fa-lg fa-flip-horizontal"></i>
         </span>);
     }
 
-    return connectDragSource(
+    return connectDragPreview(
       <div className={classNames('dnd-drag-source', isDragging ? 'is-dragging' : '')}>
           {head}
           {id}
           {/* <div>{this.state.mousedown && this.state.mousedown.x}</div>
           <div>{this.state.mousedown && this.state.mousedown.y}</div> */}
-          <div>{this.node && node.style.left}</div>
-          <div>{this.node && node.style.top}</div>
+          <div>{this.node && styleLeft}</div>
+          <div>{this.node && styleTop - parentTop }</div>
           {/* isDragging && ' (and I am being dragged now)' */}
           {foot}
       </div>

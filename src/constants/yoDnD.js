@@ -5,3 +5,5 @@
 export const dndTypes = {
   YO_COMP: 'yoComp'
 };
+
+export const GRID_SPACING = 40;

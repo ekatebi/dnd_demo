@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { DropTarget } from 'react-dnd';
-import { dndTypes} from '../constants/yoDnDTypes';
+import { dndTypes } from '../constants/yoDnD';
 import classNames from 'classnames';
 import '../style/dnd.scss';
 
