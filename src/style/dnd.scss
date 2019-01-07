@@ -36,7 +36,6 @@ $dot-space: 39px;
   margin: 10px;
   height: 120px;
   width: 120px;
-  cursor: move;
   border: blue solid 2px;
   background-color: #ffffff;
   opacity: 0.99;
@@ -56,6 +55,7 @@ $dot-space: 39px;
     align-items: center;
     justify-content: flex-start;
     margin: 5px;
+
   }
 
   .foot {
@@ -68,47 +68,8 @@ $dot-space: 39px;
     justify-content: flex-end;
   }
 
-  .active {
-
-    width: 0.8em;
-    height: 0.8em;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    border-color: transparent;
-    border-width: 0.8em;
-    border-right-color: #0c0;
-    border-bottom-color: #0c0;
-
-    :before,
-    :after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      border-color: transparent;
-      border-style: solid;
-    }
-
-    :before {
-      border-width: 0.9em;
-      border-right-color: #ccc;
-      border-bottom-color: #ccc;
-    }
-
-    :after {
-      border-radius: 0.4em;
-      border-width: 0.8em;
-      border-right-color: #0c0;
-      border-bottom-color: #0c0;
-    }
-
-  }
-
   &.is-dragging {
-    border: blue solid 5px;
+    border: blue solid 3px;
   }
 
 }

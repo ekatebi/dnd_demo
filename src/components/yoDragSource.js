@@ -109,12 +109,18 @@ class YoDragSource extends Component {
     this.node.removeEventListener("mousedown", this.mousedownPos);
   }
 
+  mouseEnter = () => {
+    console.log('mouseEnter');
+    this.setState({ isMouseInside: true });
+  }
+
+  mouseLeave = () => {
+    console.log('mouseLeave');
+    this.setState({ isMouseInside: false });
+  }  
+
   mousedownPos(e) {
     var { node } = this;
-    if (this.corner) {
-      node.removeChild(this.corner);
-      this.corner = undefined;
-    }
 
     var offset = node.getClientRects()[0];
     var mousedown = {
@@ -125,9 +131,10 @@ class YoDragSource extends Component {
     this.setState({ mousedown });
   }
 
-  calcPos(clientOffset, mousedown, parentParam) {
-    var delta = Math.round(clientOffset - mousedown)
+  calcPos(clientOffset, mousedown, parentParamEx) {
+    var delta = Math.round(clientOffset - mousedown);
     var val = Math.floor(delta / GRID_SPACING) * GRID_SPACING;
+    var parentParam = Math.round(parentParamEx);
     parentParam = Math.floor(parentParam / GRID_SPACING) * GRID_SPACING;
     return (val < parentParam ? parentParam + GRID_SPACING : val);
   }
@@ -136,62 +143,63 @@ class YoDragSource extends Component {
     var { node } = this;
     var parentRec = e.detail.parentNode.getBoundingClientRect();
     
-//    console.log('parentRec', parentRec);
-
     e.detail.parentNode.appendChild(node);
 
     node.style.position = 'absolute';
-    const styleLeft = this.calcPos(e.detail.clientOffset.x, this.state.mousedown.x, parentRec.left);  
-    const styleTop = this.calcPos(e.detail.clientOffset.y, this.state.mousedown.y, parentRec.top);
+    const styleLeft = 
+      this.calcPos(e.detail.clientOffset.x, this.state.mousedown.x, parentRec.left);
+    const styleTop = 
+      this.calcPos(e.detail.clientOffset.y, this.state.mousedown.y, parentRec.top);
+    
     let parentTop = Math.round(parentRec.top);
     parentTop = Math.floor(parentTop / GRID_SPACING) * GRID_SPACING;
 
     node.style.left = styleLeft + 'px';
     node.style.top = styleTop + 'px';
 
-
-    // node.style.left = this.calcPos(e.detail.clientOffset.x - parentRec.left, this.state.mousedown.x);  
-    // node.style.top = this.calcPos(e.detail.clientOffset.y - parentRec.top, this.state.mousedown.y);
-
-    // if (!this.corner) {
-    //   this.corner = node.appendChild(document.createElement('div'));
-    //   this.corner.classList.add('active');
-    // }
-
     this.setState({ active: true, parentTop, styleLeft, styleTop });
-
   }
 
   render() {
     // Your component receives its own props as usual
     
     var { node } = this;
-    const { active, parentTop, styleLeft, styleTop } = this.state;
+    const { active, isMouseInside, parentTop, styleLeft, styleTop } = this.state;
 
     // These props are injected by React DnD,
     // as defined by your `collect` function above:
     const { id, isDragging, connectDragSource, connectDragPreview } = this.props;
 
-    let head, foot;
+    let foot;
 
-    head = connectDragSource(<span className="head">
-        <i className="fa fa-arrows fa-lg"></i>
+    const head = connectDragSource(
+      <span className="head" >
+        <i className="fa fa-arrows fa-lg"
+        onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} >
+        </i>
       </span>);
 
     if (active) {
-      foot = (<span className="foot">
+      foot = (<span className="foot" >
           <i className="fa fa-expand fa-lg fa-flip-horizontal"></i>
         </span>);
     }
 
+    let val;
+
+    if (styleTop && parentTop) {
+      val = styleTop - parentTop;
+    }
+
     return connectDragPreview(
-      <div className={classNames('dnd-drag-source', isDragging ? 'is-dragging' : '')}>
+      <div className={classNames('dnd-drag-source',  
+          isMouseInside || isDragging ? 'is-dragging' : '')}>
           {head}
           {id}
           {/* <div>{this.state.mousedown && this.state.mousedown.x}</div>
           <div>{this.state.mousedown && this.state.mousedown.y}</div> */}
-          <div>{this.node && styleLeft}</div>
-          <div>{this.node && styleTop - parentTop }</div>
+          <div>{this.node && active ? styleLeft : ''}</div>
+          <div>{this.node && active ? val : ''}</div>
           {/* isDragging && ' (and I am being dragged now)' */}
           {foot}
       </div>
