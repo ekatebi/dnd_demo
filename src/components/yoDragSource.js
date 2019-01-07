@@ -18,35 +18,20 @@ const yoDragSourceContract = {
   },
 
   isDragging(props, monitor) {
-
     var draggingItem = monitor.getItem().id === props.id 
-
-    // draggingItem && console.log('isDragging', props.id);
-    // If your component gets unmounted while dragged
-    // (like a card in Kanban board dragged between lists)
-    // you can implement something like this to keep its
-    // appearance dragged:
     return draggingItem;
   },
 
   beginDrag(props, monitor, component) {
 
-    // const componentNode = findDOMNode(component); //.getBoundingClientRect();
-
-    // Return the data describing the dragged item
     const item = { id: props.id, node: component.node };
 
-    // console.log('beginDrag', item.id);
-
-    // add an appropriate event listener
     window.addEventListener("repos", component.updatePos);
 
     return item;
   },
 
   endDrag(props, monitor, component) {
-
-    // console.log('endDrag', props.id );
 
     if (!monitor.didDrop()) {
       // You can check whether the drop was successful
@@ -55,25 +40,6 @@ const yoDragSourceContract = {
     }
 
     window.removeEventListener("repos", component.updatePos);
-
-    // When dropped on a compatible target, do something.
-    // Read the original dragged item from getItem():
-//    const item = monitor.getItem();
-
-    // You may also read the drop result from the drop target
-    // that handled the drop, if it returned an object from
-    // its drop() method.
-//    const dropResult = monitor.getDropResult();
-
-    // const clientOffset = monitor.getClientOffset();
-    // const componentRect = findDOMNode(component).getBoundingClientRect();
-    // console.log('endDrag componentRect', componentRect);
-
-
-    // console.log('dropResult', dropResult);
-
-    // This is a good place to call some Flux action
-    // CardActions.moveCardToList(item.id, dropResult.listId);
   }
 };
 
@@ -159,17 +125,14 @@ class YoDragSource extends Component {
     let parentLeft = Math.round(parentRec.left + window.scrollX);
     parentLeft = Math.floor(parentLeft / GRID_SPACING) * GRID_SPACING;
 
-    this.setState({ active: true, parentTop, styleLeft, styleTop });
+    this.setState({ active: true, parentTop, left: styleLeft - parentLeft, top: styleTop - parentTop });
   }
 
   render() {
-    // Your component receives its own props as usual
     
     var { node } = this;
-    const { active, isMouseInside, parentTop, parentLeft, styleLeft, styleTop } = this.state;
+    const { active, isMouseInside, top, left } = this.state;
 
-    // These props are injected by React DnD,
-    // as defined by your `collect` function above:
     const { id, isDragging, connectDragSource, connectDragPreview } = this.props;
 
     let foot;
@@ -187,22 +150,13 @@ class YoDragSource extends Component {
         </span>);
     }
 
-    let val;
-
-    if (styleTop && parentTop) {
-      val = styleTop - parentTop;
-    }
-
     return connectDragPreview(
       <div className={classNames('dnd-drag-source',  
           isMouseInside || isDragging ? 'is-dragging' : '')}>
           {head}
           {id}
-          {/* <div>{this.state.mousedown && this.state.mousedown.x}</div>
-          <div>{this.state.mousedown && this.state.mousedown.y}</div> */}
-          <div>{this.node && active ? styleLeft : ''}</div>
-          <div>{this.node && active ? val : ''}</div>
-          {/* isDragging && ' (and I am being dragged now)' */}
+          <div>{this.node && active ? left : ''}</div>
+          <div>{this.node && active ? top : ''}</div>
           {foot}
       </div>
     );

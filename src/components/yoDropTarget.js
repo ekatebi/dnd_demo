@@ -46,21 +46,10 @@ const yoDropTargetContract = {
       return;
     }
 
-    // Obtain the dragged item
     const item = monitor.getItem();
-
-    // You can do something with it
 
     const clientOffset = monitor.getClientOffset();
 
-    // const clientOffset = monitor.getSourceClientOffset();
-
-    // const componentRect = findDOMNode(component).getBoundingClientRect();
-    // console.log('componentRect', componentRect);
-
-    // console.log('drop clientOffset', clientOffset, item.id);
-
-    // create and dispatch the event
     var event = new CustomEvent("repos", {
         detail: {
           id: item.id,
@@ -71,11 +60,6 @@ const yoDropTargetContract = {
 
     window.dispatchEvent(event);
 
-//    ChessActions.movePiece(item.fromPosition, props.position);
-
-    // You can also do nothing and return a drop result,
-    // which will be available as monitor.getDropResult()
-    // in the drag source's endDrag() method
     return { moved: true };
   }
 };
@@ -101,14 +85,6 @@ class YoDropTarget extends Component {
   render() {
 
     const { isOver, connectDropTarget } = this.props;
-
-    // console.log('YoDropTarget', isOver);
-
-    // Your component receives its own props as usual
-    // const { position } = this.props;
-
-    // These props are injected by React DnD,
-    // as defined by your `collect` function above:
 
     return connectDropTarget(
       <div className={classNames('dnd-drop-target', isOver ? 'is-over' : '')} >
