@@ -96,8 +96,8 @@ class YoDragSource extends Component {
   }
 
   calcPos(clientOffset, mousedown, parentParamEx, scroll) {
-    var delta = Math.round(clientOffset - mousedown + scroll);
-    var val = Math.floor(delta / GRID_SPACING) * GRID_SPACING;
+    var val = Math.round(clientOffset - mousedown + scroll);    
+    val = Math.floor(val / GRID_SPACING) * GRID_SPACING;
     var parentParam = Math.round(parentParamEx + scroll);
     parentParam = Math.floor(parentParam / GRID_SPACING) * GRID_SPACING;
     return (val < parentParam + GRID_SPACING ? parentParam + GRID_SPACING : val);
@@ -130,7 +130,6 @@ class YoDragSource extends Component {
 
   render() {
     
-    var { node } = this;
     const { active, isMouseInside, top, left } = this.state;
 
     const { id, isDragging, connectDragSource, connectDragPreview } = this.props;

@@ -82,13 +82,25 @@ function collect(connect, monitor) {
 
 class YoDropTarget extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  componentDidMount() {
+    this.setState({ node: findDOMNode(this) });
+  }
+
   render() {
 
     const { isOver, connectDropTarget } = this.props;
+    const { node } = this.state;
+
+    const rec = node && node.getBoundingClientRect();
 
     return connectDropTarget(
       <div className={classNames('dnd-drop-target', isOver ? 'is-over' : '')} >
-
+        <div>{`${rec && rec.left}, ${rec && rec.top}`}</div>
       </div>
     );
   }
