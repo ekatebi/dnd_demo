@@ -21,7 +21,7 @@ const yoDragSourceContract = {
 
     var draggingItem = monitor.getItem().id === props.id 
 
-    draggingItem && console.log('isDragging', props.id);
+    // draggingItem && console.log('isDragging', props.id);
     // If your component gets unmounted while dragged
     // (like a card in Kanban board dragged between lists)
     // you can implement something like this to keep its
@@ -36,7 +36,7 @@ const yoDragSourceContract = {
     // Return the data describing the dragged item
     const item = { id: props.id, node: component.node };
 
-    console.log('beginDrag', item.id);
+    // console.log('beginDrag', item.id);
 
     // add an appropriate event listener
     window.addEventListener("repos", component.updatePos);
@@ -46,7 +46,7 @@ const yoDragSourceContract = {
 
   endDrag(props, monitor, component) {
 
-    console.log('endDrag', props.id );
+    // console.log('endDrag', props.id );
 
     if (!monitor.didDrop()) {
       // You can check whether the drop was successful
@@ -110,12 +110,10 @@ class YoDragSource extends Component {
   }
 
   mouseEnter = () => {
-    console.log('mouseEnter');
     this.setState({ isMouseInside: true });
   }
 
   mouseLeave = () => {
-    console.log('mouseLeave');
     this.setState({ isMouseInside: false });
   }  
 
@@ -131,31 +129,35 @@ class YoDragSource extends Component {
     this.setState({ mousedown });
   }
 
-  calcPos(clientOffset, mousedown, parentParamEx) {
-    var delta = Math.round(clientOffset - mousedown);
+  calcPos(clientOffset, mousedown, parentParamEx, scroll) {
+    var delta = Math.round(clientOffset - mousedown + scroll);
     var val = Math.floor(delta / GRID_SPACING) * GRID_SPACING;
-    var parentParam = Math.round(parentParamEx);
+    var parentParam = Math.round(parentParamEx + scroll);
     parentParam = Math.floor(parentParam / GRID_SPACING) * GRID_SPACING;
-    return (val < parentParam ? parentParam + GRID_SPACING : val);
+    return (val < parentParam + GRID_SPACING ? parentParam + GRID_SPACING : val);
   }
 
   updatePos(e) {
     var { node } = this;
     var parentRec = e.detail.parentNode.getBoundingClientRect();
+
     
     e.detail.parentNode.appendChild(node);
 
     node.style.position = 'absolute';
     const styleLeft = 
-      this.calcPos(e.detail.clientOffset.x, this.state.mousedown.x, parentRec.left);
+      this.calcPos(e.detail.clientOffset.x, this.state.mousedown.x, parentRec.left, window.scrollX);
     const styleTop = 
-      this.calcPos(e.detail.clientOffset.y, this.state.mousedown.y, parentRec.top);
+      this.calcPos(e.detail.clientOffset.y, this.state.mousedown.y, parentRec.top, window.scrollY);
     
-    let parentTop = Math.round(parentRec.top);
-    parentTop = Math.floor(parentTop / GRID_SPACING) * GRID_SPACING;
-
     node.style.left = styleLeft + 'px';
     node.style.top = styleTop + 'px';
+
+    let parentTop = Math.round(parentRec.top + window.scrollY);
+    parentTop = Math.floor(parentTop / GRID_SPACING) * GRID_SPACING;
+
+    let parentLeft = Math.round(parentRec.left + window.scrollX);
+    parentLeft = Math.floor(parentLeft / GRID_SPACING) * GRID_SPACING;
 
     this.setState({ active: true, parentTop, styleLeft, styleTop });
   }
@@ -164,7 +166,7 @@ class YoDragSource extends Component {
     // Your component receives its own props as usual
     
     var { node } = this;
-    const { active, isMouseInside, parentTop, styleLeft, styleTop } = this.state;
+    const { active, isMouseInside, parentTop, parentLeft, styleLeft, styleTop } = this.state;
 
     // These props are injected by React DnD,
     // as defined by your `collect` function above:

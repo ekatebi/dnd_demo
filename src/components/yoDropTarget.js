@@ -52,10 +52,13 @@ const yoDropTargetContract = {
     // You can do something with it
 
     const clientOffset = monitor.getClientOffset();
+
+    // const clientOffset = monitor.getSourceClientOffset();
+
     // const componentRect = findDOMNode(component).getBoundingClientRect();
     // console.log('componentRect', componentRect);
 
-    console.log('drop clientOffset', clientOffset, item.id, item.fromPosition, props.position);
+    // console.log('drop clientOffset', clientOffset, item.id);
 
     // create and dispatch the event
     var event = new CustomEvent("repos", {
