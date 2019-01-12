@@ -24,7 +24,7 @@ const yoDragSourceContract = {
 
   beginDrag(props, monitor, component) {
 
-    const item = { id: props.id, node: component.node };
+    const item = { id: props.id, node: component.state.node };
 
     window.addEventListener("repos", component.updatePos);
 
@@ -67,12 +67,13 @@ class YoDragSource extends Component {
   }
 
   componentDidMount() {
-    this.node = findDOMNode(this);
-    this.node.addEventListener('mousedown', this.mousedownPos, false);
+    const node = findDOMNode(this);
+    node.addEventListener('mousedown', this.mousedownPos, false);
+    this.setState({ node });
   }
 
   componentWillUnmount() {
-    this.node.removeEventListener("mousedown", this.mousedownPos);
+    this.state.node.removeEventListener("mousedown", this.mousedownPos);
   }
 
   mouseEnter = () => {
@@ -84,7 +85,7 @@ class YoDragSource extends Component {
   }  
 
   mousedownPos(e) {
-    var { node } = this;
+    var { node } = this.state;
 
     var offset = node.getClientRects()[0];
     var mousedown = {
@@ -95,44 +96,52 @@ class YoDragSource extends Component {
     this.setState({ mousedown });
   }
 
-  calcPos(clientOffset, mousedown, parentParamEx, scroll) {
-    var val = Math.round(clientOffset - mousedown + scroll);    
+  calcPosX(clientOffset, mousedown, parentParamEx, scroll) {
+    var val = Math.round(clientOffset - mousedown + scroll);
     val = Math.floor(val / GRID_SPACING) * GRID_SPACING;
     var parentParam = Math.round(parentParamEx + scroll);
     parentParam = Math.floor(parentParam / GRID_SPACING) * GRID_SPACING;
     return (val < parentParam + GRID_SPACING ? parentParam + GRID_SPACING : val);
   }
 
-  updatePos(e) {
-    var { node } = this;
-    var parentRec = e.detail.parentNode.getBoundingClientRect();
+  calcPos(clientOffset, mousedown, parentParamEx, scroll, label) {
+    var val = Math.round(clientOffset - mousedown + scroll);
+    val -= (val - parentParamEx)%GRID_SPACING;
+    return (val < parentParamEx + GRID_SPACING ? parentParamEx + GRID_SPACING : val);
+  }
 
+  updatePos(e) {
+    var { node } = this.state;
+    // var parentRec = e.detail.parentNode.getBoundingClientRect();
+    var parentRec = e.detail.parentRec;
     
     e.detail.parentNode.appendChild(node);
 
     node.style.position = 'absolute';
+
+    let parentTop = parentRec.top - 10;
+    let parentLeft = parentRec.left - 10;
+
     const styleLeft = 
-      this.calcPos(e.detail.clientOffset.x, this.state.mousedown.x, parentRec.left, window.scrollX);
+      this.calcPos(e.detail.clientOffset.x, this.state.mousedown.x, parentLeft, window.scrollX, 'left');
+
     const styleTop = 
-      this.calcPos(e.detail.clientOffset.y, this.state.mousedown.y, parentRec.top, window.scrollY);
+      this.calcPos(e.detail.clientOffset.y, this.state.mousedown.y, parentTop, window.scrollY, 'top');
     
     node.style.left = styleLeft + 'px';
     node.style.top = styleTop + 'px';
 
-    let parentTop = Math.round(parentRec.top + window.scrollY);
-    parentTop = Math.floor(parentTop / GRID_SPACING) * GRID_SPACING;
-
-    let parentLeft = Math.round(parentRec.left + window.scrollX);
-    parentLeft = Math.floor(parentLeft / GRID_SPACING) * GRID_SPACING;
-
-    this.setState({ active: true, parentTop, left: styleLeft - parentLeft, top: styleTop - parentTop });
+    this.setState({ active: true,
+      left: styleLeft - parentLeft, 
+      top: styleTop - parentTop,
+      parentRec });
   }
 
   render() {
-    
-    const { active, isMouseInside, top, left } = this.state;
 
     const { id, isDragging, connectDragSource, connectDragPreview } = this.props;
+    const { node, active, isMouseInside, top, left, 
+      parentRec } = this.state;
 
     let foot;
 
@@ -149,13 +158,22 @@ class YoDragSource extends Component {
         </span>);
     }
 
+    const rec = node && node.getBoundingClientRect();
+
+          // <div>{node && active ? left : ''}</div>
+          // <div>{node && active ? top : ''}</div>
+
+          // <div>{node && active ? left : ''}</div>
+          // <div>{node && active ? top : ''}</div>
+
     return connectDragPreview(
       <div className={classNames('dnd-drag-source',  
           isMouseInside || isDragging ? 'is-dragging' : '')}>
           {head}
           {id}
-          <div>{this.node && active ? left : ''}</div>
-          <div>{this.node && active ? top : ''}</div>
+          <div>{node && active && `${left}, ${top}`}</div>
+          <div>{rec && `${rec.left}, ${rec.top}`}</div>
+          <div>{parentRec && `${parentRec.left}, ${parentRec.top}`}</div>
           {foot}
       </div>
     );

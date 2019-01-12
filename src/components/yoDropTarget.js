@@ -54,7 +54,9 @@ const yoDropTargetContract = {
         detail: {
           id: item.id,
           clientOffset,
-          parentNode: findDOMNode(component)
+          // parentNode: findDOMNode(component)
+          parentNode: component.state.node,
+          parentRec: component.state.rec
         }
       });
 
@@ -88,19 +90,19 @@ class YoDropTarget extends Component {
   }
 
   componentDidMount() {
-    this.setState({ node: findDOMNode(this) });
+    this.setState({ node: findDOMNode(this), 
+      rec: findDOMNode(this).getBoundingClientRect() });
   }
 
   render() {
 
     const { isOver, connectDropTarget } = this.props;
-    const { node } = this.state;
-
-    const rec = node && node.getBoundingClientRect();
+    const { rec } = this.state;
+    // const rec = node && node.getBoundingClientRect();
 
     return connectDropTarget(
       <div className={classNames('dnd-drop-target', isOver ? 'is-over' : '')} >
-        <div>{`${rec && rec.left}, ${rec && rec.top}`}</div>
+        <div>{rec && `${rec.left}, ${rec.top}`}</div>
       </div>
     );
   }
