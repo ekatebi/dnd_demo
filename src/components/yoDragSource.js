@@ -136,13 +136,13 @@ class YoDragSource extends Component {
     const head = connectDragSource(
       <span className="head" >
         <i className="fa fa-arrows fa-lg"
-        onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} >
-        </i>
+        onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave}></i>
       </span>);
 
     if (active) {
       foot = (<span className="foot" >
-          <i className="fa fa-expand fa-lg fa-flip-horizontal"></i>
+          <i className="fa fa-expand fa-lg fa-flip-horizontal" 
+          onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave}></i>
         </span>);
     }
 
