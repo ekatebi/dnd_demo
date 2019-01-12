@@ -13,11 +13,14 @@ $dot-space: 39px;
   justify-content: flex-start; 
 
   margin: 100px;
+  padding: 30px;
 
   border: blue solid 2px;
 }
 
 .dnd-drop-target {
+/*  position: relative;
+*/
   margin: 100px;
   height: 600px;
 
@@ -48,8 +51,8 @@ $dot-space: 39px;
   flex-flow: column;
   align-items: center;
   justify-content: space-between;
-  position: relative;
-
+/*  position: relative;
+*/
   .head {
 //    border: red solid 1px;
     display: flex;
