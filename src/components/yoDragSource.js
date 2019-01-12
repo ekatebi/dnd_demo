@@ -96,8 +96,8 @@ class YoDragSource extends Component {
     this.setState({ mousedown });
   }
 
-  calcPos(clientOffset, mousedown, parentParamEx) {
-    var val = Math.round(clientOffset - parentParamEx - mousedown);
+  calcPos(clientOffset, mousedown, parent) {
+    var val = Math.round(clientOffset - parent - mousedown);
     val -= val%GRID_SPACING;
     return (val < GRID_SPACING ? GRID_SPACING : val);
   }
