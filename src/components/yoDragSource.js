@@ -104,7 +104,6 @@ class YoDragSource extends Component {
 
   updatePos(e) {
     var { node } = this.state;
-    // var parentRec = e.detail.parentRec;
     var parentRec = e.detail.parentNode.getBoundingClientRect();
     
     e.detail.parentNode.appendChild(node);

@@ -54,9 +54,7 @@ const yoDropTargetContract = {
         detail: {
           id: item.id,
           clientOffset,
-          // parentNode: findDOMNode(component)
           parentNode: component.state.node,
-          // parentRec: component.state.rec
         }
       });
 
