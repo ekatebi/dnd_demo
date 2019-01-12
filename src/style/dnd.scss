@@ -19,8 +19,9 @@ $dot-space: 39px;
 }
 
 .dnd-drop-target {
-/*  position: relative;
-*/
+  position: relative;
+  overflow: hidden;
+
   margin: 100px;
   height: 600px;
 
@@ -51,8 +52,8 @@ $dot-space: 39px;
   flex-flow: column;
   align-items: center;
   justify-content: space-between;
-/*  position: relative;
-*/
+  position: static;
+
   .head {
 //    border: red solid 1px;
     display: flex;
