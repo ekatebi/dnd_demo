@@ -62,18 +62,35 @@ class YoDragSource extends Component {
   constructor(props) {
     super(props);
     this.updatePos = this.updatePos.bind(this);
+    this.mouseEnter = this.mouseEnter.bind(this);
+    this.mouseLeave = this.mouseLeave.bind(this);
     this.mousedownPos = this.mousedownPos.bind(this);
+    this.resize = this.resize.bind(this);
+    this.mouseDown = this.mouseDown.bind(this);
+    this.mouseUp = this.mouseUp.bind(this);
+    this.scroll = this.scroll.bind(this);
     this.state = {};
   }
 
   componentDidMount() {
     const node = findDOMNode(this);
     node.addEventListener('mousedown', this.mousedownPos, false);
+    window.addEventListener('scroll', this.scroll);
+    window.addEventListener('mouseup', this.mouseUp);
     this.setState({ node });
   }
 
   componentWillUnmount() {
     this.state.node.removeEventListener("mousedown", this.mousedownPos);
+  }
+
+  scroll(e) {
+    const { parentNode } = this.state;
+
+    if (parentNode) {
+      const parentRec = parentNode.getBoundingClientRect();
+      this.setState({ parentRec });  
+    }
   }
 
   mouseEnter = () => {
@@ -82,7 +99,20 @@ class YoDragSource extends Component {
 
   mouseLeave = () => {
     this.setState({ isMouseInside: false });
-  }  
+  }
+
+  mouseDown(e) {
+    const { parentNode } = this.state;
+    parentNode.addEventListener('mousemove', this.resize);
+  }
+
+  mouseUp(e) {
+    console.log('up');
+    const { parentNode } = this.state;
+    if (parentNode) {
+      parentNode.removeEventListener('mousemove', this.resize);
+    }
+  }
 
   mousedownPos(e) {
     var { node } = this.state;
@@ -96,6 +126,18 @@ class YoDragSource extends Component {
     this.setState({ mousedown });
   }
 
+  resize(e) {
+
+    if (e.which === 1) {
+
+      const { parentRec } = this.state;
+      const x = e.pageX - parentRec.x - window.scrollX;
+      const y = e.pageY - parentRec.y - window.scrollY;
+
+      console.log(x + " / " + y);
+    }
+  }
+
   calcPos(clientOffset, mousedown, parent) {
     var val = Math.round(clientOffset - parent - mousedown);
     val -= val%GRID_SPACING;
@@ -104,7 +146,8 @@ class YoDragSource extends Component {
 
   updatePos(e) {
     var { node } = this.state;
-    var parentRec = e.detail.parentNode.getBoundingClientRect();
+    var parentNode = e.detail.parentNode;
+    var parentRec = parentNode.getBoundingClientRect();
     
     e.detail.parentNode.appendChild(node);
 
@@ -122,14 +165,15 @@ class YoDragSource extends Component {
     this.setState({ active: true,
       left, 
       top,
-      parentRec });
+      parentRec,
+      parentNode
+       });
   }
 
   render() {
 
     const { id, isDragging, connectDragSource, connectDragPreview } = this.props;
-    const { node, active, isMouseInside, top, left, 
-      parentRec } = this.state;
+    const { node, active, isMouseInside, top, left } = this.state;
 
     let foot;
 
@@ -142,11 +186,12 @@ class YoDragSource extends Component {
     if (active) {
       foot = (<span className="foot" >
           <i className="fa fa-expand fa-lg fa-flip-horizontal" 
-          onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave}></i>
+          onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave}
+          onMouseDown={this.mouseDown} ></i>
         </span>);
     }
 
-    const rec = node && node.getBoundingClientRect();
+    // const rec = node && node.getBoundingClientRect();
 
     return connectDragPreview(
       <div className={classNames('dnd-drag-source',  
