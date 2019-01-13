@@ -38,7 +38,6 @@ class App extends Component {
             Learn React
           </a>
         </header> */}
-        <DonutChart data={data} colorRange={d3.schemeCategory10}/>
         <DonutChart data={data} colorRange={d3.schemePastel1}/>
         <DonutChart data={data} colorRange={d3.schemeAccent}/>
         <div className="dnd-drag-items">
@@ -47,7 +46,11 @@ class App extends Component {
           <YoDragSource id={2} />
           <YoDragSource id={3} />
           <YoDragSource id={4} />
-          <YoDragSource id={5} />
+          <YoDragSource id={5}>
+            <div>
+              <DonutChart data={data} colorRange={d3.schemeCategory10}/>
+            </div>
+          </YoDragSource>
         </div>
         <YoDropTarget />
 
