@@ -34,11 +34,13 @@ export default class DonutChart extends Component {
     var radius = Math.min(width, height) / 2;
     var color = d3.scaleOrdinal(this.props.colorRange);
 
-    var svg = d3.select("#chart")
-    .append('svg')
-    .attr('class', 'pie')
-    .attr('width', width)
-    .attr('height', height);
+    var id = 'chart'+this.props.id
+
+    var svg = d3.select('#'+id)
+      .append('svg')
+      .attr('class', 'pie')
+      .attr('width', width)
+      .attr('height', height);
 
     var g = svg.append('g')
     .attr('transform', 'translate(' + (width/2) + ',' + (height/2) + ')');
@@ -102,6 +104,6 @@ export default class DonutChart extends Component {
   }
 
   render() {
-    return (<div id="chart" />);
+    return (<div id={'chart'+this.props.id} />);
   }
 }

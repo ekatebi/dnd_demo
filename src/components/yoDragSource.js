@@ -79,6 +79,10 @@ class YoDragSource extends Component {
     node.addEventListener('mousedown', this.mousedownPos);
     window.addEventListener('scroll', this.scroll);
     window.addEventListener('mouseup', this.mouseUp);
+    if (!this.props.children) {
+      node.style.width = this.state.width + 'px';
+      node.style.height = this.state.height + 'px';
+    }
     this.setState({ node, rec: node.getBoundingClientRect() });
   }
 
@@ -217,10 +221,10 @@ class YoDragSource extends Component {
     const { active, isMouseInside, top, left, width, height } = this.state;
 
     const head = connectDragSource(
-      <span className="head" >
+      <div className="head" >
         <i className="fa fa-arrows fa-lg"
         onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave}></i>
-      </span>);
+      </div>);
 
      const foot = (<span className="foot" >
           {active && (<i className="fa fa-expand fa-lg fa-flip-horizontal" 
