@@ -61,6 +61,8 @@ class YoDragSource extends Component {
 
   constructor(props) {
     super(props);
+    this.minWidth = 120;
+    this.minHeight = 120;
     this.updatePos = this.updatePos.bind(this);
     this.mouseEnter = this.mouseEnter.bind(this);
     this.mouseLeave = this.mouseLeave.bind(this);
@@ -69,7 +71,7 @@ class YoDragSource extends Component {
     this.mouseDown = this.mouseDown.bind(this);
     this.mouseUp = this.mouseUp.bind(this);
     this.scroll = this.scroll.bind(this);
-    this.state = { width: 120, height: 120 };
+    this.state = { width: this.minWidth, height: this.minHeight };
   }
 
   componentDidMount() {
@@ -144,21 +146,27 @@ class YoDragSource extends Component {
 
     if (e.which === 1) {
 
-      const { parentRec, left, top, rec } = this.state;
+      const { minWidth, minHeight } = this;
+      const { node, parentRec, left, top, width, height } = this.state;
       const x = e.pageX - parentRec.x - window.scrollX;
       const y = e.pageY - parentRec.y - window.scrollY;
 
-      if (x > left + rec.width && y > top + rec.height) {
-        const { node } = this.state;
-        const width = x - left;
-        const height = y - top;
+      let wd = width;
+      let ht = height;
 
-        node.style.width = width + 'px';
-        node.style.height = height + 'px';
+      if (x - left >= minWidth ) {
+        wd = x - left;
+      }
 
-        // this.setState({ timestamp: +new Date() });
+      if (y - top >= minHeight) {
+        ht = y - top;
+      }
 
-        this.setState({ width, height });
+      if (wd !== width || ht !== height) {
+        this.setState({ width: wd, height: ht }, () => {
+          node.style.width = wd + 'px';
+          node.style.height = ht + 'px';
+        });
       }
     }
   }
