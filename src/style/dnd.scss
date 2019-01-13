@@ -6,6 +6,16 @@ $bg-color: #ffffff;
 $dot-size: 2px;
 $dot-space: 39px;
 
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
 .dnd-drag-items {
   display: flex;
   flex-direction: row;
@@ -58,16 +68,18 @@ $dot-space: 39px;
 //    border: red solid 1px;
     display: flex;
     flex-flow: row;
-    width: 96%;
+    width: 100%;
     height: 20px;
     align-items: center;
     justify-content: flex-start;
-    margin: 5px;
+  }
 
+  .content {
+    align-content: center;
   }
 
   .foot {
-//    border: green solid 1px;
+//    border: red solid 1px;
     display: flex;
     flex-flow: row;
     width: 100%;

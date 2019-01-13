@@ -107,10 +107,22 @@ class YoDragSource extends Component {
   }
 
   mouseUp(e) {
-    console.log('up');
+
     const { parentNode } = this.state;
     if (parentNode) {
       parentNode.removeEventListener('mousemove', this.resize);
+
+      const { node, width, height } = this.state;
+
+        let wd = Math.floor(width/GRID_SPACING) * GRID_SPACING;
+        let ht = Math.floor(height/GRID_SPACING) * GRID_SPACING;
+
+        node.style.width = wd + 'px';
+        node.style.height = ht + 'px';
+
+        // this.setState({ timestamp: +new Date() });
+
+        this.setState({ width: wd, height: ht });
     }
   }
 
@@ -136,11 +148,17 @@ class YoDragSource extends Component {
       const x = e.pageX - parentRec.x - window.scrollX;
       const y = e.pageY - parentRec.y - window.scrollY;
 
-      // const x2 = rec.x; // - parentRec.x - window.scrollX;
-      // const y2 = rec.y; // - parentRec.y - window.scrollY;
-
       if (x > left + rec.width && y > top + rec.height) {
-        console.log(x + " / " + y, left + " / " + top);
+        const { node } = this.state;
+        const width = x - left;
+        const height = y - top;
+
+        node.style.width = width + 'px';
+        node.style.height = height + 'px';
+
+        // this.setState({ timestamp: +new Date() });
+
+        this.setState({ width, height });
       }
     }
   }
@@ -180,9 +198,7 @@ class YoDragSource extends Component {
   render() {
 
     const { id, isDragging, connectDragSource, connectDragPreview } = this.props;
-    const { node, active, isMouseInside, top, left } = this.state;
-
-    let foot;
+    const { node, active, isMouseInside, top, left, width, height } = this.state;
 
     const head = connectDragSource(
       <span className="head" >
@@ -190,22 +206,21 @@ class YoDragSource extends Component {
         onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave}></i>
       </span>);
 
-    if (active) {
-      foot = (<span className="foot" >
-          <i className="fa fa-expand fa-lg fa-flip-horizontal" 
+     const foot = (<span className="foot" >
+          {active && (<i className="fa fa-expand fa-lg fa-flip-horizontal" 
           onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave}
-          onMouseDown={this.mouseDown} ></i>
+          onMouseDown={this.mouseDown} ></i>)}
         </span>);
-    }
-
-    // const rec = node && node.getBoundingClientRect();
 
     return connectDragPreview(
-      <div className={classNames('dnd-drag-source',  
+      <div className={classNames('dnd-drag-source', 'noselect', 
           isMouseInside || isDragging ? 'is-dragging' : '')}>
           {head}
-          {id}
-          <div>{node && active && `${left}, ${top}`}</div>
+          <div className="content">
+            {id}
+            <div>{node && active && `${left}, ${top}`}</div>
+            <div>{node && active && width && height && `${width}, ${height}`}</div>
+          </div>
           {foot}
       </div>
     );

@@ -99,7 +99,8 @@ class YoDropTarget extends Component {
     // const rec = node && node.getBoundingClientRect();
 
     return connectDropTarget(
-      <div className={classNames('dnd-drop-target', isOver ? 'is-over' : '')} >
+      <div className={classNames('dnd-drop-target', 'noselect',
+        isOver ? 'is-over' : '')} >
         <div>{rec && `${rec.left}, ${rec.top}`}</div>
       </div>
     );
