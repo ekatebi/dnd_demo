@@ -77,7 +77,7 @@ class YoDragSource extends Component {
     node.addEventListener('mousedown', this.mousedownPos, false);
     window.addEventListener('scroll', this.scroll);
     window.addEventListener('mouseup', this.mouseUp);
-    this.setState({ node });
+    this.setState({ node, rec: node.getBoundingClientRect() });
   }
 
   componentWillUnmount() {
@@ -85,11 +85,11 @@ class YoDragSource extends Component {
   }
 
   scroll(e) {
-    const { parentNode } = this.state;
+    const { parentNode, node } = this.state;
 
     if (parentNode) {
       const parentRec = parentNode.getBoundingClientRect();
-      this.setState({ parentRec });  
+      this.setState({ parentRec, rec: node.getBoundingClientRect() });  
     }
   }
 
@@ -117,7 +117,9 @@ class YoDragSource extends Component {
   mousedownPos(e) {
     var { node } = this.state;
 
-    var offset = node.getClientRects()[0];
+    // var offset = node.getClientRects()[0];
+    var offset = node.getBoundingClientRect();
+
     var mousedown = {
       x: Math.round(e.clientX - offset.left),
       y: Math.round(e.clientY - offset.top)
@@ -130,11 +132,16 @@ class YoDragSource extends Component {
 
     if (e.which === 1) {
 
-      const { parentRec } = this.state;
+      const { parentRec, left, top, rec } = this.state;
       const x = e.pageX - parentRec.x - window.scrollX;
       const y = e.pageY - parentRec.y - window.scrollY;
 
-      console.log(x + " / " + y);
+      // const x2 = rec.x; // - parentRec.x - window.scrollX;
+      // const y2 = rec.y; // - parentRec.y - window.scrollY;
+
+      if (x > left + rec.width && y > top + rec.height) {
+        console.log(x + " / " + y, left + " / " + top);
+      }
     }
   }
 
