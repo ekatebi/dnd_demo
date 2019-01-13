@@ -151,15 +151,15 @@ class YoDragSource extends Component {
       const x = e.pageX - parentRec.x - window.scrollX;
       const y = e.pageY - parentRec.y - window.scrollY;
 
-      let wd = width;
-      let ht = height;
+      let wd = x - left;
+      let ht = y - top;
 
-      if (x - left >= minWidth ) {
-        wd = x - left;
+      if (wd < minWidth) {
+        wd = width;
       }
 
-      if (y - top >= minHeight) {
-        ht = y - top;
+      if (ht < minHeight) {
+        ht = height;
       }
 
       if (wd !== width || ht !== height) {
