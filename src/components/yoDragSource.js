@@ -69,7 +69,7 @@ class YoDragSource extends Component {
     this.mouseDown = this.mouseDown.bind(this);
     this.mouseUp = this.mouseUp.bind(this);
     this.scroll = this.scroll.bind(this);
-    this.state = {};
+    this.state = { width: 120, height: 120 };
   }
 
   componentDidMount() {
@@ -198,7 +198,7 @@ class YoDragSource extends Component {
   render() {
 
     const { id, isDragging, connectDragSource, connectDragPreview } = this.props;
-    const { node, active, isMouseInside, top, left, width, height } = this.state;
+    const { active, isMouseInside, top, left, width, height } = this.state;
 
     const head = connectDragSource(
       <span className="head" >
@@ -218,8 +218,8 @@ class YoDragSource extends Component {
           {head}
           <div className="content">
             {id}
-            <div>{node && active && `${left}, ${top}`}</div>
-            <div>{node && active && width && height && `${width}, ${height}`}</div>
+            <div>{left && top && `${left}, ${top}`}</div>
+            <div>{active && width && height && `${width}, ${height}`}</div>
           </div>
           {foot}
       </div>
