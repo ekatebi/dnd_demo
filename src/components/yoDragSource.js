@@ -164,8 +164,8 @@ class YoDragSource extends Component {
 
       if (wd !== width || ht !== height) {
         this.setState({ width: wd, height: ht }, () => {
-          node.style.width = wd + 'px';
-          node.style.height = ht + 'px';
+          node.style.width = this.state.width + 'px';
+          node.style.height = this.state.height + 'px';
         });
       }
     }
