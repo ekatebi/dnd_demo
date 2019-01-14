@@ -165,11 +165,11 @@ class YoDragSource extends Component {
       let ht = y - top;
 
       if (wd < minWidth) {
-        wd = width;
+        wd = minWidth;
       }
 
       if (ht < minHeight) {
-        ht = height;
+        ht = minHeight;
       }
 
       if (wd !== width || ht !== height) {
