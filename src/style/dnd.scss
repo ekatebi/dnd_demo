@@ -33,7 +33,7 @@ $dot-space: 39px;
   overflow: hidden;
 
   margin: 100px;
-  height: 800px;
+  height: 1200px;
 
   background:
     linear-gradient(90deg, $bg-color ($dot-space - $dot-size), transparent 1%) center,
@@ -79,11 +79,13 @@ $dot-space: 39px;
 
   .content {
     display: flex;
-    flex-flow: column;
+    flex-flow: row;
     flex: 1;
-    align-content: center;
+
+/*    align-content: center;
     justify-content: center;
     align-items: center;
+*/
     overflow: hidden;
   }
 

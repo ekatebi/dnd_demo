@@ -101,7 +101,7 @@ class YoDropTarget extends Component {
     return connectDropTarget(
       <div className={classNames('dnd-drop-target', 'noselect',
         isOver ? 'is-over' : '')} >
-        <div>{rec && `${rec.left}, ${rec.top}`}</div>
+        <div>{rec && `${Math.round(rec.left)}, ${Math.round(rec.top)}`}</div>
       </div>
     );
   }
