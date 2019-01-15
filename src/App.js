@@ -8,10 +8,17 @@ import { DragDropContext } from 'react-dnd'
 // import './App.css';
 import './style/App.scss';
 import DonutChart from './components/donutChart.js'
+import HcDonutChart from './components/charts/donutChart.js'
 import YoDropTarget from './components/yoDropTarget.js'
 import YoDragSource from './components/yoDragSource.js'
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   render() {
 
     var data = [
@@ -22,6 +29,7 @@ class App extends Component {
       {name: "other", value: 10}
     ];
 
+              // <HcDonutChart />
     return (
       <div className="App">
         {/* <header className="App-header">
@@ -40,6 +48,7 @@ class App extends Component {
         </header> */}
         
         <div className="dnd-drag-items">
+        
           <YoDragSource id={0}>
             <DonutChart data={data} colorRange={d3.schemeAccent} id={1} />
           </YoDragSource>
@@ -51,9 +60,22 @@ class App extends Component {
               <DonutChart data={data} colorRange={d3.schemeCategory10} id={2} />
             </div>
           </YoDragSource>
-          <YoDragSource id={2} />
-          <YoDragSource id={3} />
-          <YoDragSource id={4} />
+          
+          <YoDragSource id={2}>
+            <HcDonutChart id={2} />
+          </YoDragSource>
+
+          <YoDragSource id={3} >
+            <HcDonutChart id={3} />
+          </YoDragSource>
+
+          <YoDragSource id={4} onResize={(height) => {
+            // console.log(height);
+//            this.setState({height});
+          }} >
+            <HcDonutChart id={4} height={this.state.height} />
+          </YoDragSource>
+
         </div>
         <YoDropTarget />
 

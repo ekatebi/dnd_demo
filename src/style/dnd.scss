@@ -6,6 +6,9 @@ $bg-color: #ffffff;
 $dot-size: 2px;
 $dot-space: 39px;
 
+$dnd-drag-source-min-width: 120px;
+$dnd-drag-source-min-height: 120px;
+
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -82,11 +85,15 @@ $dot-space: 39px;
     flex-flow: row;
     flex: 1;
 
+    width: 95%;
+    height: 100%;
     align-content: center;
     justify-content: center;
     align-items: center;
 
     overflow: hidden;
+
+    // border: red solid 1px;
   }
 
   .foot {

@@ -176,6 +176,9 @@ class YoDragSource extends Component {
         this.setState({ width: wd, height: ht }, () => {
           node.style.width = this.state.width + 'px';
           node.style.height = this.state.height + 'px';
+          if (this.props.onResize) {
+            this.props.onResize(this.state.height);
+          }
         });
       }
     }
@@ -241,15 +244,15 @@ class YoDragSource extends Component {
       );
 
     return connectDragPreview(
-      <div className={classNames('dnd-drag-source', 'noselect', 
+      (<div className={classNames('dnd-drag-source', 'noselect', 
           isMouseInside || isDragging ? 'is-dragging' : '')}>
           {head}
           <div className="content">
             {children ? children : defaultContent}
           </div>
           {foot}
-      </div>
-    );
+      </div>)
+    , false, false, 0.5, 0.5, 0, 0);
   }
   
 }
