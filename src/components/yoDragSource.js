@@ -247,7 +247,7 @@ class YoDragSource extends Component {
       (<div className={classNames('dnd-drag-source', 'noselect', 
           isMouseInside || isDragging ? 'is-dragging' : '')}>
           {head}
-          <div className="content">
+          <div className="container">
             {children ? children : defaultContent}
           </div>
           {foot}

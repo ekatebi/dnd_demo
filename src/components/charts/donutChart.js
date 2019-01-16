@@ -15,7 +15,7 @@ export default class DonutChart extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.height !== this.props.height) {
+        if (!!this.props.height && prevProps.height !== this.props.height) {
             this._drawChart();
         }
     }
@@ -27,7 +27,8 @@ export default class DonutChart extends Component {
         console.log('chart height', height);
 
         return (
-            <div id={'container'+this.props.id} style={{ height: height || 300 }}></div>
+            <div id={'container'+this.props.id} style={{ height: height || 300 }}>
+            </div>
             );
     }
 

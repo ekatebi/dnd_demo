@@ -9,7 +9,7 @@ export default class DonutChart extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.activate();
+//    this.activate();
   }
 
   activate() {

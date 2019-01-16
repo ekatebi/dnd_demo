@@ -61,17 +61,17 @@ class App extends Component {
             </div>
           </YoDragSource>
           
-          <YoDragSource id={2}>
+          {/* <YoDragSource id={2}>
             <HcDonutChart id={2} />
           </YoDragSource>
 
           <YoDragSource id={3} >
             <HcDonutChart id={3} />
-          </YoDragSource>
+          </YoDragSource> */}
 
           <YoDragSource id={4} onResize={(height) => {
-            // console.log(height);
-//            this.setState({height});
+            console.log(height);
+            this.setState({height});
           }} >
             <HcDonutChart id={4} height={this.state.height} />
           </YoDragSource>
