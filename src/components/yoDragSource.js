@@ -177,7 +177,7 @@ class YoDragSource extends Component {
           node.style.width = this.state.width + 'px';
           node.style.height = this.state.height + 'px';
           if (this.props.onResize) {
-            this.props.onResize(this.state.height);
+            this.props.onResize(this.state.height * 0.9);
           }
         });
       }
