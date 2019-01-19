@@ -137,6 +137,9 @@ class YoDragSource extends Component {
   }
 
   mousedownPos(e) {
+    
+    // console.log('mousedownPos');
+
     var { parentNode, node } = this.state;
 
     // var offset = node.getClientRects()[0];
@@ -147,7 +150,8 @@ class YoDragSource extends Component {
       y: Math.round(e.clientY - offset.top)
     };
 
-    parentNode && node && parentNode.appendChild(node);
+    // was preventing click in reset zoom in high chart happening
+//    parentNode && node && parentNode.appendChild(node);
 
     this.setState({ mousedown });
   }

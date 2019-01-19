@@ -9,6 +9,7 @@ import { DragDropContext } from 'react-dnd'
 import './style/App.scss';
 import DonutChart from './components/donutChart.js'
 import HcDonutChart from './components/charts/donutChart.js'
+import HcLineChart from './components/charts/lineChart.js'
 import YoDropTarget from './components/yoDropTarget.js'
 import YoDragSource from './components/yoDragSource.js'
 
@@ -46,13 +47,17 @@ class App extends Component {
             Learn React
           </a>
         </header> */}
-        
+
+        {/* <HcLineChart id={50} height={800} /> */}
+
         <div className="dnd-drag-items">
+
         
           <YoDragSource id={0}>
             <DonutChart data={data} colorRange={d3.schemeAccent} id={1} />
           </YoDragSource>
-          <YoDragSource id={1}>
+
+          {/* <YoDragSource id={1}>
             <DonutChart data={data} colorRange={d3.schemePastel1} id={0} />
           </YoDragSource>
           <YoDragSource id={5}>
@@ -60,8 +65,8 @@ class App extends Component {
               <DonutChart data={data} colorRange={d3.schemeCategory10} id={2} />
             </div>
           </YoDragSource>
-          
-          {/* <YoDragSource id={2}>
+
+          <YoDragSource id={2}>
             <HcDonutChart id={2} />
           </YoDragSource>
 
@@ -69,16 +74,35 @@ class App extends Component {
             <HcDonutChart id={3} />
           </YoDragSource> */}
 
-          <YoDragSource id={4} onResize={(height) => {
-            console.log(height);
-            this.setState({height});
+          <YoDragSource id={3} >
+            <iframe width="100%" height="100%" title="chart"
+              src="https://j5dash.yottaa.com/d/o7AbP05mk/third-party-drill-down?orgId=1&refresh=5m&panelId=2&fullscreen&from=now-7d&to=now">
+            </iframe>
+          </YoDragSource>
+
+          <YoDragSource id={4} onResize={(height4) => {
+            // console.log(height4);
+            this.setState({height4});
           }} >
-            <HcDonutChart id={4} height={this.state.height} />
+            <HcDonutChart id={4} height={this.state.height4} />
+          </YoDragSource>
+
+          <YoDragSource id={5} onResize={(height5) => {
+            // console.log(height4);
+            this.setState({height5});
+          }} >
+            <HcLineChart id={5} height={this.state.height5} />
+          </YoDragSource>
+
+          <YoDragSource id={6} onResize={(height6) => {
+            // console.log(height4);
+            this.setState({height6});
+          }} >
+            <HcLineChart id={6} height={this.state.height6} />
           </YoDragSource>
 
         </div>
         <YoDropTarget />
-
       </div>
     );
   }

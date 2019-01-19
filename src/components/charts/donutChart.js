@@ -24,7 +24,7 @@ export default class DonutChart extends Component {
 
         const { height } = this.props;
 
-        console.log('chart height', height);
+        // console.log('chart height', height);
 
         return (
             <div id={'container'+this.props.id} style={{ height: height || 300 }}>
