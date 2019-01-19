@@ -68,7 +68,7 @@ $dnd-drag-source-min-height: 120px;
   align-items: center;
   justify-content: space-between;
   position: relative;
-  overflow: hidden;
+//  overflow: hidden;
 
   .head {
     display: flex;
@@ -77,6 +77,16 @@ $dnd-drag-source-min-height: 120px;
     height: 30px;
     align-items: center;
     justify-content: flex-start;
+    // border: red solid 1px;
+
+    .title {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-end;
+      width: 100%;
+      // border: green solid 1px;
+      padding-right: 5px;
+    }
 
 //    border: red solid 1px;
   }
@@ -84,19 +94,18 @@ $dnd-drag-source-min-height: 120px;
   .container {
     display: flex;
     flex-flow: column;
-    flex: 1;
+//    flex: 1;
     min-width: 120px;
-    width: 95%;
-    height: 100%;
+    // width: 50%;
+    // height: 50%;
 
     // align-content: center;
     justify-content: center;
     // align-items: center;
 
-    overflow: hidden;
-    z-index: 100;
+    // border: red solid 1px;
 
-//    border: blue solid 1px;
+    overflow: hidden;
   }
 
   .foot {

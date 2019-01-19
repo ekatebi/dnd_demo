@@ -7,6 +7,12 @@ import YoDragSource from '../components/yoDragSource.js'
 
 export default class YoDraggable extends Component {
 
+  constructor(props) {
+    super(props);
+    this.resize = this.resize.bind(this);
+    this.state = {};
+  }
+
   components = {
     DonutChart,
     HcDonutChart,
@@ -14,11 +20,15 @@ export default class YoDraggable extends Component {
     Iframe
   };
 
+  resize(size) {
+    this.setState({size});
+  }
+
   render() {
     const TagName = this.components[this.props.tag || 'DonutChart'];
     return (
-      <YoDragSource {...this.props} >
-        <TagName {...this.props} />
+      <YoDragSource {...this.props} onResize={this.resize} >
+        <TagName {...this.props} height={this.state.size} />
       </YoDragSource>
     );
   }

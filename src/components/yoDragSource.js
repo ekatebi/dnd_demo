@@ -128,6 +128,9 @@ class YoDragSource extends Component {
 
         this.setState({ width: wd, height: ht, id: -1 }, () => {
           parentNode.appendChild(node);
+          if (this.props.onResize) {
+            this.props.onResize({ width: this.state.width, height: this.state.height } );
+          }
         });
     }
   }
@@ -176,9 +179,9 @@ class YoDragSource extends Component {
         this.setState({ width: wd, height: ht }, () => {
           node.style.width = this.state.width + 'px';
           node.style.height = this.state.height + 'px';
-          if (this.props.onResize) {
-            this.props.onResize(this.state.height * 0.9);
-          }
+          // if (this.props.onResize) {
+          //   this.props.onResize(this.state.height);
+          // }
         });
       }
     }
@@ -223,16 +226,20 @@ class YoDragSource extends Component {
 
     const { active, isMouseInside, top, left, width, height } = this.state;
 
+    // const title = active ? `${top}, ${left}, ${width}, ${height}` : '';
+
     const head = connectDragSource(
       <div className="head" >
         <i className="fa fa-arrows fa-lg"
         onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave}></i>
+        {/* <span className="title">{title}</span> */}
       </div>);
 
      const foot = (<span className="foot" >
-          {active && (<i className="fa fa-expand fa-lg fa-flip-horizontal" 
-          onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave}
-          onMouseDown={this.mouseDown} ></i>)}
+          {active && (
+            <i className="fa fa-expand fa-lg fa-flip-horizontal" 
+              onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave}
+              onMouseDown={this.mouseDown} ></i>)}
         </span>);
 
      const defaultContent = (
