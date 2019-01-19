@@ -247,12 +247,12 @@ class YoDragSource extends Component {
       (<div className={classNames('dnd-drag-source', 'noselect', 
           isMouseInside || isDragging ? 'is-dragging' : '')}>
           {head}
-          <div className="container">
+          <div className="container" style={{ width, height }} >
             {children ? children : defaultContent}
           </div>
           {foot}
       </div>)
-    , false, false, 0.5, 0.5, 0, 0);
+    );
   }
   
 }
