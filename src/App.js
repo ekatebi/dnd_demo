@@ -12,6 +12,7 @@ import HcDonutChart from './components/charts/donutChart.js'
 import HcLineChart from './components/charts/lineChart.js'
 import YoDropTarget from './components/yoDropTarget.js'
 import YoDragSource from './components/yoDragSource.js'
+import YoDraggable from './components/yoDraggable.js'
 
 class App extends Component {
 
@@ -47,38 +48,12 @@ class App extends Component {
             Learn React
           </a>
         </header> */}
-
-        {/* <HcLineChart id={50} height={800} /> */}
-
-        <div className="dnd-drag-items">
-
         
-          <YoDragSource id={0}>
-            <DonutChart data={data} colorRange={d3.schemeAccent} id={1} />
-          </YoDragSource>
-
-          {/* <YoDragSource id={1}>
-            <DonutChart data={data} colorRange={d3.schemePastel1} id={0} />
-          </YoDragSource>
-          <YoDragSource id={5}>
-            <div>
-              <DonutChart data={data} colorRange={d3.schemeCategory10} id={2} />
-            </div>
-          </YoDragSource>
-
-          <YoDragSource id={2}>
-            <HcDonutChart id={2} />
-          </YoDragSource>
-
-          <YoDragSource id={3} >
-            <HcDonutChart id={3} />
-          </YoDragSource> */}
-
-          <YoDragSource id={3} >
-            <iframe width="100%" height="100%" title="chart"
-              src="https://j5dash.yottaa.com/d/o7AbP05mk/third-party-drill-down?orgId=1&refresh=5m&panelId=2&fullscreen&from=now-7d&to=now">
-            </iframe>
-          </YoDragSource>
+        <div className="dnd-drag-items">
+          <YoDraggable tag="DonutChart" data={data} colorRange={d3.schemeAccent} id={0} />
+          <YoDraggable tag="Iframe" id={1} width="100%" height="100%" title="chart"
+              src="https://j5dash.yottaa.com/d/o7AbP05mk/third-party-drill-down?orgId=1&refresh=5m&panelId=2&fullscreen&from=now-7d&to=now"
+          />
 
           <YoDragSource id={4} onResize={(height4) => {
             // console.log(height4);
@@ -107,7 +82,5 @@ class App extends Component {
     );
   }
 }
-
-// export default App;
 
 export default DragDropContext(HTML5Backend)(App)

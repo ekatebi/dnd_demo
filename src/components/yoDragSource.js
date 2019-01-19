@@ -6,10 +6,6 @@ import { dndTypes, GRID_SPACING } from '../constants/yoDnD';
 import '../style/dnd.scss';
 import classNames from 'classnames';
 
-/**
- * Specifies the drag source contract.
- * Only `beginDrag` function is required.
- */
 const yoDragSourceContract = {
 
   canDrag(props) {
