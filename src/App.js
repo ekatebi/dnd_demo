@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
-import HTML5Backend from 'react-dnd-html5-backend'
-import { DragDropContext } from 'react-dnd'
 
 import './style/App.scss';
 import YoDnd from './components/yoDnd.js'
 
-class App extends Component {
+export default class App extends Component {
 
   constructor(props) {
     super(props);
@@ -38,5 +36,3 @@ class App extends Component {
     );
   }
 }
-
-export default DragDropContext(HTML5Backend)(App)

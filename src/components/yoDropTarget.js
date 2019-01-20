@@ -48,6 +48,8 @@ const yoDropTargetContract = {
 
     const item = monitor.getItem();
 
+    console.log('drop item', item);
+
     const clientOffset = monitor.getClientOffset();
 
     var event = new CustomEvent("repos", {

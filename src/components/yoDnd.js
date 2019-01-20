@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import HTML5Backend from 'react-dnd-html5-backend'
+import { DragDropContext } from 'react-dnd'
 import YoDropTarget from '../components/yoDropTarget.js'
 import YoDraggables from '../components/yoDraggables.js'
 
-export default class YoDnd extends Component {
+class YoDnd extends Component {
 
   constructor(props) {
     super(props);
@@ -18,3 +20,5 @@ export default class YoDnd extends Component {
     );
   }
 }
+
+export default DragDropContext(HTML5Backend)(YoDnd)
