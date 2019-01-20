@@ -5,26 +5,24 @@ import '../style/chart.scss';
 export default class DonutChart extends Component {
 
   componentDidMount() {
-    this.activate();
+      this._drawChart();
   }
 
-  componentWillReceiveProps(nextProps) {
-//    this.activate();
+  componentDidUpdate(prevProps) {
+//      this._drawChart();
   }
 
-  activate() {
-    // console.log(this.props.colorRange);
+  data = [
+      {name: "USA", value: 40},
+      {name: "UK", value: 20},
+      {name: "Canada", value: 30},
+      {name: "Maxico", value: 10},
+      {name: "other", value: 10}
+    ];
 
-// var data = [
-//   {name: "USA", value: 40},
-//   {name: "UK", value: 20},
-//   {name: "Canada", value: 30},
-//   {name: "Maxico", value: 10}
-// ];
+  _drawChart() {
 
-    var data = this.props.data;
-
-    // var text = "";
+    var data = this.data;
 
     var width = 260;
     var height = 260;
@@ -32,7 +30,7 @@ export default class DonutChart extends Component {
     // var duration = 750;
 
     var radius = Math.min(width, height) / 2;
-    var color = d3.scaleOrdinal(this.props.colorRange);
+    var color = d3.scaleOrdinal(d3.schemeAccent);
 
     var id = 'chart'+this.props.id
 

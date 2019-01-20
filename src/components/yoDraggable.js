@@ -10,7 +10,7 @@ export default class YoDraggable extends Component {
   constructor(props) {
     super(props);
     this.resize = this.resize.bind(this);
-    this.state = {};
+    this.state = { size: {} };
   }
 
   components = {
@@ -25,10 +25,15 @@ export default class YoDraggable extends Component {
   }
 
   render() {
-    const TagName = this.components[this.props.tag || 'DonutChart'];
+
+    const { title, tag } = this.props;
+    const { left, height } = this.state.size;
+
+    const TagName = this.components[tag || 'DonutChart'];
+
     return (
       <YoDragSource {...this.props} onResize={this.resize} >
-        <TagName {...this.props} height={this.state.size} />
+        {left ? <TagName {...this.props} height={height} /> : <div>{title || tag}</div>}
       </YoDragSource>
     );
   }

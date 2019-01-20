@@ -129,7 +129,8 @@ class YoDragSource extends Component {
         this.setState({ width: wd, height: ht, id: -1 }, () => {
           parentNode.appendChild(node);
           if (this.props.onResize) {
-            this.props.onResize({ width: this.state.width, height: this.state.height } );
+            this.props.onResize({ width: this.state.width, height: this.state.height,
+            left: this.state.left, top: this.state.top } );
           }
         });
     }
@@ -137,9 +138,7 @@ class YoDragSource extends Component {
 
   mousedownPos(e) {
     
-    // console.log('mousedownPos');
-
-    var { parentNode, node } = this.state;
+    var { node } = this.state;
 
     // var offset = node.getClientRects()[0];
     var offset = node.getBoundingClientRect();
@@ -216,6 +215,11 @@ class YoDragSource extends Component {
       top,
       parentRec,
       parentNode
+       }, () => {
+          if (this.props.onResize) {
+            this.props.onResize({ width: this.state.width, height: this.state.height,
+            left: this.state.left, top: this.state.top } );
+          }
        });
   }
 
@@ -227,6 +231,7 @@ class YoDragSource extends Component {
     const { active, isMouseInside, top, left, width, height } = this.state;
 
     // const title = active ? `${top}, ${left}, ${width}, ${height}` : '';
+//    const title = `${top}, ${left}, ${width}, ${height}`;
 
     const head = connectDragSource(
       <div className="head" >

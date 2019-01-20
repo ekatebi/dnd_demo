@@ -95,7 +95,7 @@ class YoDropTarget extends Component {
   render() {
 
     const { isOver, connectDropTarget } = this.props;
-    const { rec } = this.state;
+//    const { rec } = this.state;
     // const rec = node && node.getBoundingClientRect();
 
     return connectDropTarget(
