@@ -4,8 +4,7 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 
 import './style/App.scss';
-import YoDropTarget from './components/yoDropTarget.js'
-import YoDraggables from './components/yoDraggables.js'
+import YoDnd from './components/yoDnd.js'
 
 class App extends Component {
 
@@ -33,8 +32,8 @@ class App extends Component {
           </a>
         </header> */}
 
-        <YoDraggables />
-        <YoDropTarget />
+        <YoDnd />
+
       </div>
     );
   }
