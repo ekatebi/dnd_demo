@@ -15,7 +15,11 @@ export default class DonutChart extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        this._drawChart();
+        const { height } = this.props;
+
+        if (prevProps.height !== height) {
+            this._drawChart();
+        }        
     }
 
     render() {

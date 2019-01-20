@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { DragSource } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
 import 'font-awesome/scss/font-awesome.scss';
 import { dndTypes, GRID_SPACING } from '../constants/yoDnD'; 
 import '../style/dnd.scss';
 import classNames from 'classnames';
+import _flow from 'lodash/flow';
+import * as actions from '../actions/dnd';
 
 const yoDragSourceContract = {
 
@@ -195,11 +199,14 @@ class YoDragSource extends Component {
 
   updatePos(e) {
     var { node } = this.state;
+    var { refreshPalette } = this.props;
+
     var parentNode = e.detail.parentNode;
     var parentRec = parentNode.getBoundingClientRect();
     
     if (!parentNode.contains(node) && !node.contains(parentNode)) {
       parentNode.appendChild(node);
+      refreshPalette();
     }
 
     node.style.position = 'absolute';
@@ -282,4 +289,23 @@ class YoDragSource extends Component {
   
 }
 
-export default DragSource(dndTypes.YO_COMP, yoDragSourceContract, collect)(YoDragSource);
+// export default DragSource(dndTypes.YO_COMP, yoDragSourceContract, collect)(YoDragSource);
+
+// function mapStateToProps(state) {
+
+//   const { timestamp } = state.dnd;
+
+//   return {
+//     timestamp
+//   };
+
+// }
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actions, dispatch);
+}
+
+export default _flow(
+  DragSource(dndTypes.YO_COMP, yoDragSourceContract, collect),
+  connect(undefined, mapDispatchToProps)
+)(YoDragSource);

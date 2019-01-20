@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import YoDraggable from '../components/yoDraggable.js'
+// import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+// import * as actions from '../actions/dnd';
 
-export default class YoDraggables extends Component {
+class YoDraggables extends Component {
 
   constructor(props) {
     super(props);
@@ -9,6 +12,10 @@ export default class YoDraggables extends Component {
   }
 
   render() {
+
+    const { timestamp } = this.props;
+
+    console.log('timestamp', timestamp);
 
     let id = 0;
 
@@ -31,3 +38,19 @@ export default class YoDraggables extends Component {
   }
 
 }
+
+function mapStateToProps(state) {
+
+  const { timestamp } = state.dnd;
+
+  return {
+    timestamp
+  };
+
+}
+
+// function mapDispatchToProps(dispatch) {
+//   return bindActionCreators(actions, dispatch);
+// }
+
+export default connect(mapStateToProps)(YoDraggables);

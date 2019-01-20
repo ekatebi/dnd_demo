@@ -1,22 +1,15 @@
-const todos = (state = [], action) => {
+
+import { REFRESH_PALETTE } from '../constants/yoDnD'; 
+
+const initState = {
+
+};
+
+export default (state = initState, action) => {
   switch (action.type) {
-    case 'SAVE':
-      return [
-        ...state,
-        {
-          id: action.id,
-          text: action.text,
-          completed: false
-        }
-      ]
-    case 'RESTORE':
-      return state.map(
-        todo =>
-          todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
-      )
+    case REFRESH_PALETTE:
+      return {...state, timestamp: action.timestamp};
     default:
       return state
   }
 }
-
-export default todos

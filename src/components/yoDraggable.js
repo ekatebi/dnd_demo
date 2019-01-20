@@ -5,6 +5,7 @@ import Iframe from '../components/yoIframe.js'
 import DonutChart from '../components/donutChart.js'
 import HcDonutChart from '../components/charts/donutChart.js'
 import HcLineChart from '../components/charts/lineChart.js'
+import shortid from 'shortid';
 
 export default class YoDraggable extends Component {
 
@@ -13,6 +14,7 @@ export default class YoDraggable extends Component {
     this.resize = this.resize.bind(this);
     this.onLoad = this.onLoad.bind(this);
     this.state = { size: {}, loading: false };
+    this.id = shortid.generate();
   }
 
   components = {
@@ -34,6 +36,8 @@ export default class YoDraggable extends Component {
 
   render() {
 
+    console.log('id', this.id);
+
     const { title, tag } = this.props;
     const { size, loading } = this.state;
     const { left, height } = size;
@@ -45,7 +49,7 @@ export default class YoDraggable extends Component {
     if (loading) {
       content = (<div className="loader"></div>);
     } else if (left) {
-      content = (<TagName {...this.props} height={height} onLoad={this.onLoad} />);
+      content = (<TagName {...this.props} id={this.id} height={height} onLoad={this.onLoad} />);
     } else {
       content = (<div>{title || tag}</div>);
     }

@@ -4,12 +4,12 @@ import { render } from 'react-dom';
 
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import todoApp from './reducers'
+import app from './reducers'
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-const store = createStore(todoApp)
+const store = createStore(app)
 
 render(
   <Provider store={store}>

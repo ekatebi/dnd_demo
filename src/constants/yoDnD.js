@@ -7,3 +7,6 @@ export const dndTypes = {
 };
 
 export const GRID_SPACING = 40;
+
+const prefix = 'DND__';
+export const REFRESH_PALETTE = `${prefix}REFRESH_PALETTE`;

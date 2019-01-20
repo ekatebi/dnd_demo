@@ -20,11 +20,12 @@ export default class DonutChart extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        // if (!!this.props.height && prevProps.height !== this.props.height) {
-        //     this._drawChart();
-        // }
+        
+        const { height } = this.props;
 
-        this._drawChart();
+        if (prevProps.height !== height) {
+            this._drawChart();
+        }
     }
 
     render() {
