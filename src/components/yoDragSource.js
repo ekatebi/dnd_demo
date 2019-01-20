@@ -59,6 +59,7 @@ class YoDragSource extends Component {
     super(props);
     this.minWidth = 120;
     this.minHeight = 120;
+    this.remove = this.remove.bind(this);
     this.updatePos = this.updatePos.bind(this);
     this.mouseEnter = this.mouseEnter.bind(this);
     this.mouseLeave = this.mouseLeave.bind(this);
@@ -197,7 +198,9 @@ class YoDragSource extends Component {
     var parentNode = e.detail.parentNode;
     var parentRec = parentNode.getBoundingClientRect();
     
-    parentNode.appendChild(node);
+    if (!parentNode.contains(node) && !node.contains(parentNode)) {
+      parentNode.appendChild(node);
+    }
 
     node.style.position = 'absolute';
 
@@ -223,6 +226,13 @@ class YoDragSource extends Component {
        });
   }
 
+  remove() {
+    const {parentNode, node} = this.state;
+    if (parentNode.contains(node)) {
+      parentNode.removeChild(node);
+    }
+  }
+
   render() {
 
     const { id, children, 
@@ -230,19 +240,22 @@ class YoDragSource extends Component {
 
     const { active, isMouseInside, top, left, width, height } = this.state;
 
-    // const title = active ? `${top}, ${left}, ${width}, ${height}` : '';
-//    const title = `${top}, ${left}, ${width}, ${height}`;
+    const title = ''; // = active ? `${top}, ${left}, ${width}, ${height}` : '';
 
-    const head = connectDragSource(
+    const trash = active ? (<span><i className="fa fa-trash fa-lg head-trash" 
+      onClick={this.remove} /></span>) : undefined;
+
+    const head = (
       <div className="head" >
-        <i className="fa fa-arrows fa-lg"
-        onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave}></i>
-        {/* <span className="title">{title}</span> */}
+        {connectDragSource(<i className="fa fa-arrows fa-lg head-move"
+        onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} />)}
+        <span className="title">{title}</span>
+        {trash}
       </div>);
 
-     const foot = (<span className="foot" >
+    const foot = (<span className="foot" >
           {active && (
-            <i className="fa fa-expand fa-lg fa-flip-horizontal" 
+            <i className="fa fa-expand fa-lg fa-flip-horizontal foot-resize" 
               onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave}
               onMouseDown={this.mouseDown} ></i>)}
         </span>);

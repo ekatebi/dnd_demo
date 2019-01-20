@@ -85,13 +85,38 @@ $dnd-drag-source-min-height: 120px;
     width: 100%;
     height: 30px;
     align-items: center;
-    justify-content: flex-start;
-    // border: red solid 1px;
+    justify-content: space-between;
+
+//    border: green solid 1px;
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+    // margin-bottom: 30px;
+//    background-color: pink;
+
+    .head-move {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      justify-content: center;
+      margin: 4px;
+      cursor: move;
+//      border: red solid 1px;
+//      background-color: lightblue;
+    }
+
+    .head-trash {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      justify-content: center;
+      margin: 4px;
+    }
 
     .title {
       display: flex;
       flex-flow: row nowrap;
-      justify-content: flex-end;
+      justify-content: center;
       width: 100%;
       // border: green solid 1px;
       padding-right: 5px;
@@ -110,7 +135,9 @@ $dnd-drag-source-min-height: 120px;
 
     // align-content: center;
     justify-content: center;
-    // align-items: center;
+
+    //the following messes up displaying of grid points
+//    align-items: center;
 
     // border: red solid 1px;
 
@@ -124,8 +151,10 @@ $dnd-drag-source-min-height: 120px;
     height: 20px;
     align-items: center;
     justify-content: flex-end;
-
 //    border: red solid 1px;
+    .foot-resize {
+      cursor: nwse-resize;
+    }
   }
 
   &.is-dragging {

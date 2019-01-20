@@ -11,7 +11,8 @@ export default class YoDraggable extends Component {
   constructor(props) {
     super(props);
     this.resize = this.resize.bind(this);
-    this.state = { size: {} };
+    this.onLoad = this.onLoad.bind(this);
+    this.state = { size: {}, loading: false };
   }
 
   components = {
@@ -26,16 +27,32 @@ export default class YoDraggable extends Component {
     this.setState({size});
   }
 
+  onLoad(loading) {
+//    console.log("loading", loading);
+    this.setState({loading});
+  }
+
   render() {
 
     const { title, tag } = this.props;
-    const { left, height } = this.state.size;
+    const { size, loading } = this.state;
+    const { left, height } = size;
 
     const TagName = this.components[tag || 'DonutChart'];
 
+    let content;
+
+    if (loading) {
+      content = (<div className="loader"></div>);
+    } else if (left) {
+      content = (<TagName {...this.props} height={height} onLoad={this.onLoad} />);
+    } else {
+      content = (<div>{title || tag}</div>);
+    }
+
     return (
       <YoDragSource {...this.props} onResize={this.resize} >
-        {left ? <TagName {...this.props} height={height} /> : <div>{title || tag}</div>}
+        {content}
       </YoDragSource>
     );
   }
