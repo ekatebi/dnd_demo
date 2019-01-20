@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import YoDragSource from '../components/yoDragSource.js'
+import YoDropTarget from '../components/yoDropTarget.js'
 import Iframe from '../components/yoIframe.js'
 import DonutChart from '../components/donutChart.js'
 import HcDonutChart from '../components/charts/donutChart.js'
 import HcLineChart from '../components/charts/lineChart.js'
-import YoDragSource from '../components/yoDragSource.js'
 
 export default class YoDraggable extends Component {
 
@@ -14,6 +15,7 @@ export default class YoDraggable extends Component {
   }
 
   components = {
+    YoDropTarget,
     DonutChart,
     HcDonutChart,
     HcLineChart,
