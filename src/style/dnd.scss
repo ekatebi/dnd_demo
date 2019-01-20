@@ -29,6 +29,15 @@ $dnd-drag-source-min-height: 120px;
   padding: 10px;
 
   border: blue solid 2px;
+
+  z-index: 100;
+
+  top: 0;
+  position: sticky;
+  position: -webkit-sticky;
+
+  opacity: 1.0;
+  background-color: white;
 }
 
 .dnd-drop-target {
@@ -45,10 +54,10 @@ $dnd-drag-source-min-height: 120px;
   
   background-size: $dot-space $dot-space;
 
-//  border: green solid 2px;
+  border: green solid 2px;
 
   &.is-over {
-    border: green solid 2px;
+    border: green solid 4px;
   }
 
 }
