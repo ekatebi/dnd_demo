@@ -7,13 +7,13 @@ import shortid from 'shortid';
 import { 
   DRAGGABLES
 } from '../constants/yoDnD'; 
+import classNames from 'classnames';
 
 class YoDraggables extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { alt: false, 
-//      list: [...this.listWithId()]
+    this.state = { 
       list: [...DRAGGABLES]
     };
   }
@@ -56,22 +56,23 @@ class YoDraggables extends Component {
 
   render() {
     const { tagToReplenish, timestamp } = this.props;
-    const { list } = this.state;
+    const { list, showLogo } = this.state;
 
 //    console.log('render', list);
 
     return (
 
       <div className="dnd-drag-items" onClick={() => {
-//        this.setState({alt: !this.state.alt});
-        this.removeFromList();
-      }} >{list
-        // .filter((item) => {
-        //   return !item.hidden;
-        // })
-        .map((item, index) => {
-        return (<YoDraggable {...item} key={index} />);
-      })}
+//        this.removeFromList();
+        this.setState({showLogo: !showLogo});
+      }} >
+
+        <div className={classNames('water-mark noselect', showLogo ? 'show-logo' : '')}>YottaaGraph</div>
+
+        {list
+          .map((item, index) => {
+          return (<YoDraggable {...item} key={index} />);
+        })}
 
       </div>
 
