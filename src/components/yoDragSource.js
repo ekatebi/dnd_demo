@@ -144,7 +144,7 @@ class YoDragSource extends Component {
         // this.setState({ timestamp: +new Date() });
 
         this.setState({ width: wd, height: ht, id: -1 }, () => {
-          parentNode.appendChild(node);
+//          parentNode.appendChild(node);
           if (this.props.onResize) {
             this.props.onResize({ width: this.state.width, height: this.state.height,
             left: this.state.left, top: this.state.top } );
