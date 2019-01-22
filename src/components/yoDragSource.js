@@ -18,13 +18,31 @@ const yoDragSourceContract = {
   },
 
   isDragging(props, monitor) {
-    var draggingItem = monitor.getItem().id === props.id 
+
+    const item = monitor.getItem();
+
+    var draggingItem = props.id && item.id === props.id || item.idx === props.idx;
+
+    console.log(draggingItem, item.id, props.id, item.idx, props.idx);
+
+    // if (!props.id && !monitor.getItem().id) {
+    //   draggingItem = monitor.getItem().id === props.id;
+    // } else if (props.title) {
+    //   draggingItem = monitor.getItem().title === props.title;
+    // } else if (props.tag) {
+    //   draggingItem = monitor.getItem().tag === props.tag;
+    // }
+
     return draggingItem;
   },
 
   beginDrag(props, monitor, component) {
 
-    const item = { id: props.id, node: component.state.node };
+    if (!component) {
+      return {};
+    }
+
+    const item = { id: props.id, node: component.state.node, idx: props.idx };
 
     window.addEventListener("repos", component.updatePos);
 
@@ -123,7 +141,7 @@ class YoDragSource extends Component {
   mouseDown(e) {
     const { parentNode } = this.state;
     parentNode.addEventListener('mousemove', this.resize);
-    this.setState({ id: this.props.id });
+    this.setState({ id: this.props.id, resizing: true });
   }
 
   mouseUp(e) {
@@ -143,7 +161,7 @@ class YoDragSource extends Component {
 
         // this.setState({ timestamp: +new Date() });
 
-        this.setState({ width: wd, height: ht, id: -1 }, () => {
+        this.setState({ width: wd, height: ht, id: -1, resizing: false }, () => {
 //          parentNode.appendChild(node);
           if (this.props.onResize) {
             this.props.onResize({ width: this.state.width, height: this.state.height,
@@ -283,15 +301,15 @@ class YoDragSource extends Component {
   render() {
 
     const { id, children, style,
-      isDragging, connectDragSource, connectDragPreview} = this.props;
+      isDragging, connectDragSource, connectDragPreview, title, tag} = this.props;
 
     // active && console.log('style', style);
 
-    const { isMouseInside, top, left, width, height} = this.state;
+    const { isMouseInside, top, left, width, height, resizing} = this.state;
 
     const active = !!id
 
-    const title = active ? this.props.title : '';
+    const headTitle = active ? title : '';
 //    const title = ''
 //    const title = active ? `${top}, ${left}, ${width}, ${height}` : '';
 
@@ -302,7 +320,7 @@ class YoDragSource extends Component {
       <div className="head" >
         {connectDragSource(<i className="fa fa-arrows fa-lg head-move"
         onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} />)}
-        <span className="title">{title}</span>
+        <span className="title">{headTitle}</span>
         {trash}
       </div>);
 
@@ -315,19 +333,19 @@ class YoDragSource extends Component {
 
      const defaultContent = (
         <div>
-          <div>{id}</div>
-          <div>{left && top && `${left}, ${top}`}</div>
-          <div>{active && width && height && `${width}, ${height}`}</div>
+          <div>{title || tag}</div>
+          {/* <div>{left && top && `${left}, ${top}`}</div>
+          <div>{active && width && height && `${width}, ${height}`}</div> */}
         </div>
       );
-
+// isMouseInside || isDragging ?
     return connectDragPreview(
       (<div className={classNames('dnd-drag-source', 'noselect', 
           isMouseInside || isDragging ? 'is-dragging' : '')} style={style} >
           {head}
           <div className="container" style={{ width: width || this.minWidth, 
             height: height || this.minHeight }} >
-            {children ? children : defaultContent}
+            {children && !resizing && !isDragging || children && title === 'Canvas' ? children : defaultContent}
           </div>
           {foot}
       </div>)

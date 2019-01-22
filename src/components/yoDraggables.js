@@ -71,7 +71,7 @@ class YoDraggables extends Component {
 
         {list
           .map((item, index) => {
-          return (<YoDraggable {...item} key={index} />);
+          return (<YoDraggable {...item} key={index} idx={shortid.generate()} />);
         })}
 
       </div>

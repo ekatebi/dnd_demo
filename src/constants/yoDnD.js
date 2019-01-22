@@ -35,6 +35,10 @@ export const DRAGGABLES = [
       },
     {tag: 'Iframe', title: 'Performance Improvement',
       src: 'https://j5dash.yottaa.com/d/s2hx68Tiz/site-dashboard?refresh=5m&panelId=25&fullscreen&orgId=1'
-      }
+      },
+    {tag: 'Iframe', title: 'Sample',
+      src: 'https://snapshot.raintank.io/dashboard-solo/snapshot/y7zwi2bZ7FcoTlB93WN7yWO4aMiz3pZb?from=1493369923321&to=1493377123321&panelId=4',
+      frameborder: 0
+    }
   ];
 

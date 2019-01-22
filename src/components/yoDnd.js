@@ -3,6 +3,7 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 import YoDropTarget from '../components/yoDropTarget.js'
 import YoDraggables from '../components/yoDraggables.js'
+import shortid from 'shortid';
 
 import YoDraggable from '../components/yoDraggable.js'
 
@@ -21,7 +22,7 @@ class YoDnd extends Component {
     return (
       <div className="dnd">
         <YoDraggables />
-        <YoDropTarget />
+        <YoDropTarget id={shortid.generate()} main={true} />
       </div>
     );
   }

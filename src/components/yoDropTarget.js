@@ -22,7 +22,11 @@ const yoDropTargetContract = {
     // const item = monitor.getItem();
     const isOver = monitor.isOver();
     
-    return isOver; // canMakeChessMove(item.fromPosition, props.position);
+    const item = monitor.getItem();
+
+    console.log(item.id, props.id);
+
+    return isOver && props.id !== item.id; // canMakeChessMove(item.fromPosition, props.position);
   },
 
   hover(props, monitor, component) {
@@ -54,7 +58,7 @@ const yoDropTargetContract = {
 
     const item = monitor.getItem();
 
-    console.log('drop item', props.id, item);
+    // console.log('drop item', props.id, item);
 
     const clientOffset = monitor.getClientOffset();
 
@@ -138,14 +142,14 @@ class YoDropTarget extends Component {
 
   render() {
 
-    const { isOver, connectDropTarget } = this.props;
+    const { isOver, connectDropTarget, main } = this.props;
     const { list } = this.state;
 
 //    const { rec } = this.state;
     // const rec = node && node.getBoundingClientRect();
 
     return connectDropTarget(
-      <div className={classNames('dnd-drop-target', 'noselect',
+      <div className={classNames('dnd-drop-target', 'noselect', main ? 'main' : '',
         isOver ? 'is-over' : '')} >
         {/* <div>{rec && `${Math.round(rec.left)}, ${Math.round(rec.top)}`}</div> */}
 

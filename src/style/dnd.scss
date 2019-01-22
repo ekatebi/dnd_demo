@@ -76,7 +76,9 @@ $dnd-drag-source-min-height: 120px;
   
   background-size: $dot-space $dot-space;
 
-  border: green solid 2px;
+  &.main {
+    border: green solid 2px;
+  }
 
   &.is-over {
     border: green solid 4px;
