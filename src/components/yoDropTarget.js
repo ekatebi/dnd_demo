@@ -54,12 +54,13 @@ const yoDropTargetContract = {
 
     const item = monitor.getItem();
 
-//    console.log('drop item', item);
+    console.log('drop item', props.id, item);
 
     const clientOffset = monitor.getClientOffset();
 
     var event = new CustomEvent("repos", {
         detail: {
+          dropTargetId: props.id,
           id: item.id,
           clientOffset,
           parentNode: component.state.node,
@@ -114,7 +115,8 @@ class YoDropTarget extends Component {
       this.setState({list});  
     }
 
-    if (this.props.droppedDraggable.timestamp !== droppedDraggable.timestamp) {
+    if (this.props.droppedDraggable.timestamp !== droppedDraggable.timestamp &&
+      this.props.id === droppedDraggable.dropTargetId) {
 
       const draggable = DRAGGABLES.find((item) => {
         return item.tag === droppedDraggable.tag;

@@ -176,7 +176,10 @@ class YoDragSource extends Component {
     if (e.which === 1) {
 
       const { minWidth, minHeight } = this;
-      const { node, parentRec, left, top, width, height } = this.state;
+      const { node, parentNode, left, top, width, height } = this.state;
+      
+      const parentRec = parentNode.getBoundingClientRect();
+
       const x = e.pageX - parentRec.x - window.scrollX;
       const y = e.pageY - parentRec.y - window.scrollY;
 
@@ -213,6 +216,7 @@ class YoDragSource extends Component {
     var { node } = this.state;
     var { id, tag, dropDraggable } = this.props;
 
+    var dropTargetId = e.detail.dropTargetId;
     var parentNode = e.detail.parentNode;
     var parentRec = parentNode.getBoundingClientRect();
     
@@ -222,45 +226,50 @@ class YoDragSource extends Component {
 
 //    node.style.position = 'absolute';
 
-    const left = this.calcPos(e.detail.clientOffset.x, this.state.mousedown.x,
-     parentRec.left);
+//    if (dropTargetId === this.state.dropTargetId) {
 
-    const top = this.calcPos(e.detail.clientOffset.y, this.state.mousedown.y, 
-      parentRec.top);
+      const left = this.calcPos(e.detail.clientOffset.x, this.state.mousedown.x,
+       parentRec.left);
+
+      const top = this.calcPos(e.detail.clientOffset.y, this.state.mousedown.y, 
+        parentRec.top);
+
+//  && dropTargetId === this.state.dropTargetId
     
-    if (id) {
-      node.style.left = left + 'px';
-      node.style.top = top + 'px';
+      if (!!id) {
+        node.style.left = left + 'px';
+        node.style.top = top + 'px';
 
-      this.setState({// active: true,
-        left, 
-        top,
-        parentRec,
-        parentNode
-         }, () => {
-            if (this.props.onResize) {
-              this.props.onResize({ width: this.state.width, height: this.state.height
-              // left: this.state.left, top: this.state.top 
-            } );
-            }
-         });
+        this.setState({// active: true,
+          left, 
+          top,
+//          parentRec,
+          parentNode
+           }, () => {
+              if (this.props.onResize) {
+                this.props.onResize({ width: this.state.width, height: this.state.height
+                // left: this.state.left, top: this.state.top 
+              } );
+              }
+           });
 
-    } else {
+      }
 
-      this.setState({ // active: true,
-  //      left, 
-  //      top,
-        parentRec,
-        parentNode
-         }, () => {
-            if (this.props.onResize) {
-              this.props.onResize({ width: this.state.width, height: this.state.height
-              // left: this.state.left, top: this.state.top 
-            } );
-            }
-         });
-        
-        dropDraggable(tag, left, top);
+      if (!id) {
+
+        this.setState({ // active: true,
+//          parentRec,
+          parentNode,
+          dropTargetId
+           }, () => {
+              if (this.props.onResize) {
+                this.props.onResize({ width: this.state.width, height: this.state.height
+                // left: this.state.left, top: this.state.top 
+              } );
+              }
+           });
+          
+        dropDraggable(tag, left, top, dropTargetId);
       }
   }
 

@@ -21,14 +21,15 @@ export function refreshPalette(id) {
   };
 }
 
-export function dropDraggable(tag, left, top) {
+export function dropDraggable(tag, left, top, dropTargetId) {
   return {
     type: DROP_DRAGGABLE,
     droppedDraggable: {
       timestamp: +new Date(),
       tag,
       left,
-      top
+      top,
+      dropTargetId
     }
   };
 }
