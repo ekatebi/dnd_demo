@@ -23,15 +23,7 @@ const yoDragSourceContract = {
 
     var draggingItem = props.id && item.id === props.id || item.idx === props.idx;
 
-    console.log(draggingItem, item.id, props.id, item.idx, props.idx);
-
-    // if (!props.id && !monitor.getItem().id) {
-    //   draggingItem = monitor.getItem().id === props.id;
-    // } else if (props.title) {
-    //   draggingItem = monitor.getItem().title === props.title;
-    // } else if (props.tag) {
-    //   draggingItem = monitor.getItem().tag === props.tag;
-    // }
+//    console.log(draggingItem, item.id, props.id, item.idx, props.idx);
 
     return draggingItem;
   },

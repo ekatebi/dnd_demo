@@ -24,7 +24,7 @@ const yoDropTargetContract = {
     
     const item = monitor.getItem();
 
-    console.log(item.id, props.id);
+//    console.log(item.id, props.id);
 
     return isOver && props.id !== item.id; // canMakeChessMove(item.fromPosition, props.position);
   },

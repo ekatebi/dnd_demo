@@ -31,7 +31,7 @@ class YoDraggable extends Component {
   }
 
   componentWillUnmount() {
-      console.log('componentWillUnmount YoDraggable', this.props.tag);
+//      console.log('componentWillUnmount YoDraggable', this.props.tag);
   }
 
   components = {
