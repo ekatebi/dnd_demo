@@ -21,8 +21,20 @@ export const DRAGGABLES = [
     {tag: 'DonutChart'},
     {tag: 'HcDonutChart'},
     {tag: 'HcLineChart'},
-    {tag: 'Iframe', title: 'Grafana',
+    {tag: 'Iframe', title: 'Third Party Drill down',
       src: 'https://j5dash.yottaa.com/d/o7AbP05mk/third-party-drill-down?orgId=1&refresh=5m&panelId=2&fullscreen&from=now-7d&to=now'
-      }    
+      },
+    {tag: 'Iframe', title: 'Traffic Last Hour',
+      src: 'https://j5dash.yottaa.com/d/s2hx68Tiz/site-dashboard?refresh=5m&panelId=11&fullscreen&orgId=1'
+      },
+    {tag: 'Iframe', title: 'Site Performance',
+      src: 'https://j5dash.yottaa.com/d/s2hx68Tiz/site-dashboard?refresh=5m&panelId=27&fullscreen&orgId=1'
+      },
+    {tag: 'Iframe', title: 'Performance by Geo',
+      src: 'https://j5dash.yottaa.com/d/s2hx68Tiz/site-dashboard?refresh=5m&panelId=29&fullscreen&orgId=1'
+      },
+    {tag: 'Iframe', title: 'Performance Improvement',
+      src: 'https://j5dash.yottaa.com/d/s2hx68Tiz/site-dashboard?refresh=5m&panelId=25&fullscreen&orgId=1'
+      }
   ];
 

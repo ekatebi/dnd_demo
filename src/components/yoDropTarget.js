@@ -119,7 +119,11 @@ class YoDropTarget extends Component {
       this.props.id === droppedDraggable.dropTargetId) {
 
       const draggable = DRAGGABLES.find((item) => {
-        return item.tag === droppedDraggable.tag;
+        return (
+          (droppedDraggable.src !== undefined && item.tag === droppedDraggable.tag && item.src === droppedDraggable.src) ||
+          (droppedDraggable.src === undefined && item.tag === droppedDraggable.tag));
+
+          ;
       });
 
       if (draggable) {

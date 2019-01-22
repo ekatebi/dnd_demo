@@ -214,7 +214,7 @@ class YoDragSource extends Component {
 
   updatePos(e) {
     var { node } = this.state;
-    var { id, tag, dropDraggable } = this.props;
+    var { id, tag, dropDraggable, src } = this.props;
 
     var dropTargetId = e.detail.dropTargetId;
     var parentNode = e.detail.parentNode;
@@ -269,7 +269,7 @@ class YoDragSource extends Component {
               }
            });
           
-        dropDraggable(tag, left, top, dropTargetId);
+        dropDraggable(tag, left, top, dropTargetId, src);
       }
   }
 
@@ -283,7 +283,7 @@ class YoDragSource extends Component {
   render() {
 
     const { id, children, style,
-      isDragging, connectDragSource, connectDragPreview } = this.props;
+      isDragging, connectDragSource, connectDragPreview} = this.props;
 
     // active && console.log('style', style);
 
@@ -291,7 +291,8 @@ class YoDragSource extends Component {
 
     const active = !!id
 
-    const title = '';
+    const title = active ? this.props.title : '';
+//    const title = ''
 //    const title = active ? `${top}, ${left}, ${width}, ${height}` : '';
 
     const trash = active ? (<span><i className="fa fa-trash fa-lg head-trash" 

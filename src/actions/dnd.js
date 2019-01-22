@@ -21,7 +21,7 @@ export function refreshPalette(id) {
   };
 }
 
-export function dropDraggable(tag, left, top, dropTargetId) {
+export function dropDraggable(tag, left, top, dropTargetId, src) {
   return {
     type: DROP_DRAGGABLE,
     droppedDraggable: {
@@ -29,7 +29,8 @@ export function dropDraggable(tag, left, top, dropTargetId) {
       tag,
       left,
       top,
-      dropTargetId
+      dropTargetId,
+      src
     }
   };
 }
