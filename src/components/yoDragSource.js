@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import * as actions from '../actions/dnd';
 import { DragSource } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
 import 'font-awesome/scss/font-awesome.scss';
@@ -8,7 +9,6 @@ import { dndTypes, GRID_SPACING } from '../constants/yoDnD';
 import '../style/dnd.scss';
 import classNames from 'classnames';
 import _flow from 'lodash/flow';
-import * as actions from '../actions/dnd';
 
 const yoDragSourceContract = {
 
@@ -72,7 +72,7 @@ class YoDragSource extends Component {
     this.mouseDown = this.mouseDown.bind(this);
     this.mouseUp = this.mouseUp.bind(this);
     this.scroll = this.scroll.bind(this);
-    this.state = { width: this.minWidth, height: this.minHeight, id: -1 };
+    this.state = { width: this.minWidth, height: this.minHeight, id: -1, left: 0, top: 0 };
   }
 
   componentDidMount() {
@@ -84,7 +84,19 @@ class YoDragSource extends Component {
       node.style.width = this.state.width + 'px';
       node.style.height = this.state.height + 'px';
     }
-    this.setState({ node, rec: node.getBoundingClientRect() });
+
+    const rec = node.getBoundingClientRect();
+
+    let left = this.state.left;
+    let top = this.state.top;
+
+    if (this.props.style) {
+      left = this.props.style.left;
+      top = this.props.style.top;
+    }
+
+    this.setState({ node, rec, left, top,
+      parentNode: node.parentNode, parentRec: node.parentNode.getBoundingClientRect() });
   }
 
   componentWillUnmount() {
@@ -199,17 +211,16 @@ class YoDragSource extends Component {
 
   updatePos(e) {
     var { node } = this.state;
-    var { refreshPalette } = this.props;
+    var { id, tag, dropDraggable } = this.props;
 
     var parentNode = e.detail.parentNode;
     var parentRec = parentNode.getBoundingClientRect();
     
-    if (!parentNode.contains(node) && !node.contains(parentNode)) {
-      parentNode.appendChild(node);
-      refreshPalette();
-    }
+//    if (!parentNode.contains(node) && !node.contains(parentNode)) {
+//      parentNode.appendChild(node);
+//    }
 
-    node.style.position = 'absolute';
+//    node.style.position = 'absolute';
 
     const left = this.calcPos(e.detail.clientOffset.x, this.state.mousedown.x,
      parentRec.left);
@@ -217,40 +228,65 @@ class YoDragSource extends Component {
     const top = this.calcPos(e.detail.clientOffset.y, this.state.mousedown.y, 
       parentRec.top);
     
-    node.style.left = left + 'px';
-    node.style.top = top + 'px';
+    if (id) {
+      node.style.left = left + 'px';
+      node.style.top = top + 'px';
 
-    this.setState({ active: true,
-      left, 
-      top,
-      parentRec,
-      parentNode
-       }, () => {
-          if (this.props.onResize) {
-            this.props.onResize({ width: this.state.width, height: this.state.height,
-            left: this.state.left, top: this.state.top } );
-          }
-       });
+      this.setState({// active: true,
+        left, 
+        top,
+        parentRec,
+        parentNode
+         }, () => {
+            if (this.props.onResize) {
+              this.props.onResize({ width: this.state.width, height: this.state.height
+              // left: this.state.left, top: this.state.top 
+            } );
+            }
+         });
+
+    } else {
+
+      this.setState({ // active: true,
+  //      left, 
+  //      top,
+        parentRec,
+        parentNode
+         }, () => {
+            if (this.props.onResize) {
+              this.props.onResize({ width: this.state.width, height: this.state.height
+              // left: this.state.left, top: this.state.top 
+            } );
+            }
+         });
+        
+        dropDraggable(tag, left, top);
+      }
   }
 
-  remove() {
-    const {parentNode, node} = this.state;
-    if (parentNode.contains(node)) {
-      parentNode.removeChild(node);
-    }
+  remove(e) {
+    const { removeDraggable, id } = this.props;
+    e.stopPropagation();
+    // this.state.node.style.display = 'none';
+    removeDraggable(id);
   }
 
   render() {
 
-    const { id, children, 
+    const { id, children, style,
       isDragging, connectDragSource, connectDragPreview } = this.props;
 
-    const { active, isMouseInside, top, left, width, height } = this.state;
+    // active && console.log('style', style);
 
-    const title = ''; // = active ? `${top}, ${left}, ${width}, ${height}` : '';
+    const { isMouseInside, top, left, width, height} = this.state;
+
+    const active = !!id
+
+    const title = '';
+//    const title = active ? `${top}, ${left}, ${width}, ${height}` : '';
 
     const trash = active ? (<span><i className="fa fa-trash fa-lg head-trash" 
-      onClick={this.remove} /></span>) : undefined;
+      onClick={this.remove} ></i></span>) : undefined;
 
     const head = (
       <div className="head" >
@@ -277,9 +313,10 @@ class YoDragSource extends Component {
 
     return connectDragPreview(
       (<div className={classNames('dnd-drag-source', 'noselect', 
-          isMouseInside || isDragging ? 'is-dragging' : '')}>
+          isMouseInside || isDragging ? 'is-dragging' : '')} style={style} >
           {head}
-          <div className="container" style={{ width, height }} >
+          <div className="container" style={{ width: width || this.minWidth, 
+            height: height || this.minHeight }} >
             {children ? children : defaultContent}
           </div>
           {foot}

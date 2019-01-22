@@ -10,6 +10,14 @@ export default class DonutChart extends Component {
         this.state = {};
     }
 
+    // componentWillMount() {
+    //     console.log('componentWillMount DonutChart');
+    // }
+
+    // componentWillUnmount() {
+    //     console.log('componentWillUnmount DonutChart');
+    // }
+
     componentDidMount() {
         this._drawChart();
     }

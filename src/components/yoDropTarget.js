@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+// import * as actions from '../actions/dnd';
 import { findDOMNode } from 'react-dom';
 import { DropTarget } from 'react-dnd';
-import { dndTypes } from '../constants/yoDnD';
+import { dndTypes, DRAGGABLES } from '../constants/yoDnD';
 import classNames from 'classnames';
 import '../style/dnd.scss';
+import _flow from 'lodash/flow';
+import shortid from 'shortid';
+import YoDraggable from '../components/yoDraggable.js'
 
 /**
  * Specifies the drop target contract.
@@ -48,7 +54,7 @@ const yoDropTargetContract = {
 
     const item = monitor.getItem();
 
-    console.log('drop item', item);
+//    console.log('drop item', item);
 
     const clientOffset = monitor.getClientOffset();
 
@@ -86,17 +92,49 @@ class YoDropTarget extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { list: [], droppedDraggable: {} };
   }
 
   componentDidMount() {
-    this.setState({ node: findDOMNode(this), 
+    this.setState({ node: findDOMNode(this),
       rec: findDOMNode(this).getBoundingClientRect() });
+  }
+
+  componentWillReceiveProps(nextProps) { 
+    const { droppedDraggable, removedDraggable } = nextProps;
+    let list = [...this.state.list];
+
+//    console.log('componentWillReceiveProps', nextProps, this.props);
+
+    if (this.props.removedDraggable.timestamp !== removedDraggable.timestamp) {
+      list = list.filter((item) => {
+        return item.id !== removedDraggable.id;
+      });      
+
+      this.setState({list});  
+    }
+
+    if (this.props.droppedDraggable.timestamp !== droppedDraggable.timestamp) {
+
+      const draggable = DRAGGABLES.find((item) => {
+        return item.tag === droppedDraggable.tag;
+      });
+
+      if (draggable) {
+        list.push({...draggable, id: shortid.generate(),
+          style: { position: 'absolute', 
+            left: droppedDraggable.left, top: droppedDraggable.top } });
+      } 
+  
+      this.setState({list});  
+    }
   }
 
   render() {
 
     const { isOver, connectDropTarget } = this.props;
+    const { list } = this.state;
+
 //    const { rec } = this.state;
     // const rec = node && node.getBoundingClientRect();
 
@@ -104,9 +142,36 @@ class YoDropTarget extends Component {
       <div className={classNames('dnd-drop-target', 'noselect',
         isOver ? 'is-over' : '')} >
         {/* <div>{rec && `${Math.round(rec.left)}, ${Math.round(rec.top)}`}</div> */}
+
+        {list
+          .map((item) => {
+            return (<YoDraggable {...item} key={item.id} />);
+          })
+        }
+
       </div>
     );
   }
 }
 
-export default DropTarget(dndTypes.YO_COMP, yoDropTargetContract, collect)(YoDropTarget);
+//export default DropTarget(dndTypes.YO_COMP, yoDropTargetContract, collect)(YoDropTarget);
+
+function mapStateToProps(state) {
+
+  const { droppedDraggable, removedDraggable } = state.dnd;
+
+  return {
+    droppedDraggable,
+    removedDraggable
+  };
+
+}
+
+// function mapDispatchToProps(dispatch) {
+//   return bindActionCreators(actions, dispatch);
+// }
+
+export default _flow(
+  DropTarget(dndTypes.YO_COMP, yoDropTargetContract, collect),
+  connect(mapStateToProps)
+)(YoDropTarget);
