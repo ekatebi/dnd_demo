@@ -21,9 +21,9 @@ const yoDragSourceContract = {
 
     const item = monitor.getItem();
 
-    var draggingItem = props.id && item.id === props.id || item.idx === props.idx;
+    var draggingItem = props.id && item.id === props.id || !props.id && item.idx === props.idx;
 
-//    console.log(draggingItem, item.id, props.id, item.idx, props.idx);
+    console.log(draggingItem, item.id, props.id, item.idx, props.idx);
 
     return draggingItem;
   },
