@@ -37,8 +37,22 @@ export const DRAGGABLES = [
       src: 'https://j5dash.yottaa.com/d/s2hx68Tiz/site-dashboard?refresh=5m&panelId=25&fullscreen&orgId=1'
       },
     {tag: 'Iframe', title: 'Sample',
-      src: 'https://snapshot.raintank.io/dashboard-solo/snapshot/y7zwi2bZ7FcoTlB93WN7yWO4aMiz3pZb?from=1493369923321&to=1493377123321&panelId=4',
-      frameborder: 0
-    }
+      src: 'https://snapshot.raintank.io/dashboard-solo/snapshot/y7zwi2bZ7FcoTlB93WN7yWO4aMiz3pZb?from=1493369923321&to=1493377123321&panelId=4'
+    },
+    {tag: 'Iframe', title: 'JS Errors',
+      src: "https://j5dash.yottaa.com/d-solo/2tdBa8Fiz/site-javascript-errors?refresh=5m&orgId=1&panelId=10&from=1547658646738&to=1548263446738&var-site_id=bombas.com_78"
+    },
+    {tag: 'Iframe', title: 'JS Errors 2 days',
+      src: "https://j5dash.yottaa.com/d-solo/2tdBa8Fiz/site-javascript-errors?refresh=5m&orgId=1&from=1548093018159&to=1548265818160&panelId=10&var-site_id=bombas.com_78"
+    },
+    {tag: 'Iframe', title: 'Dashboard',
+      src: "https://j5dash.yottaa.com/d/s2hx68Tiz/site-dashboard?refresh=5m&orgId=1&from=now-1d&to=now"
+    },
+    {tag: 'Iframe', title: 'Var Dashboard',
+      src: "https://j5dash.yottaa.com/d/MYERui_ik/poc?orgId=1&var-third_party_id=55&var-site_key=abc"
+    },
   ];
+
+
+
 
