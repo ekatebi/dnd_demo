@@ -312,7 +312,7 @@ class YoDragSource extends Component {
       <div className="head" >
         {connectDragSource(<i className="fa fa-arrows fa-lg head-move"
         onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} />)}
-        <span className="title">{headTitle}</span>
+        <span className="head-title">{headTitle}</span>
         {trash}
       </div>);
 

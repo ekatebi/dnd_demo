@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 
 import './style/App.scss';
-import YoDnd from './components/yoDnd.js'
+// import YoDnd from './components/yoDnd.js'
 import AppRouter from './components/routers/appRouter.js'
 
 export default class App extends Component {

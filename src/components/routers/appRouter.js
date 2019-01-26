@@ -11,21 +11,13 @@ const Dnd = () => <h2>Dnd</h2>;
 const AppRouter = () => (
   <Router>
     <div>
-      <nav className="navbar" role="navigation" aria-label="main navigation">
+      <nav className="navbar is-info" role="navigation" aria-label="main navigation">
         <div className="navbar-menu">
           <div className="navbar-start">
-            <div className="navbar-item">
-              <Link to="/">Home</Link>
-            </div>
-            <div className="navbar-item">
-              <Link to="/about/">About</Link>
-            </div>
-            <div className="navbar-item">
-              <Link to="/users/">Users</Link>
-            </div>
-            <div className="navbar-item">
-              <Link to="/dnd/">Dnd</Link>
-            </div>
+            <Link to="/" className="navbar-item">Home</Link>
+            <Link to="/about/" className="navbar-item" >About</Link>
+            <Link to="/users/"className="navbar-item" >Users</Link>
+            <Link to="/dnd/"className="navbar-item" >Dnd</Link>
           </div>
         </div>
       </nav>
