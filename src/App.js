@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import './style/App.scss';
 import YoDnd from './components/yoDnd.js'
+import AppRouter from './components/routers/appRouter.js'
 
 export default class App extends Component {
 
@@ -30,7 +31,9 @@ export default class App extends Component {
           </a>
         </header> */}
 
-        <YoDnd />
+        {/* <YoDnd /> */}
+
+        <AppRouter />
 
       </div>
     );
